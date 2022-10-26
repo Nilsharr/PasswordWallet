@@ -85,6 +85,8 @@ public class CredentialsService : ICredentialsService
             var pass = AesEncryptor.DecryptToString(credential.Password, account!.PasswordHash);
             credential.Password = AesEncryptor.EncryptToHexString(pass, newPassword);
         }
+
+        await _dbContext.SaveChangesAsync(ct);
     }
 
     private async Task<IList<Credentials>> GetCredentialsEntity(int accountId, CancellationToken ct = default)
