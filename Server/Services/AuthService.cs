@@ -77,6 +77,7 @@ public class AuthService : IAuthService
         CancellationToken ct = default)
     {
         var hash = HashPassword(newPassword, isPasswordKeptAsHash);
+        await _credentialsService.UpdateCredentialsEncryption(accountId, hash.hashedPassword, ct);
         await _accountService.UpdatePassword(accountId, hash, isPasswordKeptAsHash, ct);
     }
 

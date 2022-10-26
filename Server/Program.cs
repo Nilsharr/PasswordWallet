@@ -21,7 +21,7 @@ builder.Services.AddAuthenticationJWTBearer(builder.Configuration.GetSection("Ap
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContextPool<PasswordWalletDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("PasswordWalletConnection"))
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PasswordWalletConnectionLocal"))
         .UseSnakeCaseNamingConvention());
 
 builder.Services.AddFastEndpoints();

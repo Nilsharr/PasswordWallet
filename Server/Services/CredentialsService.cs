@@ -14,6 +14,7 @@ public interface ICredentialsService
     Task<CredentialsDto> AddCredential(int accountId, CredentialsDto credentialDto, CancellationToken ct = default);
     Task<CredentialsDto> UpdateCredential(int accountId, CredentialsDto credentialDto, CancellationToken ct = default);
     Task DeleteCredential(int accountId, int credentialId, CancellationToken ct = default);
+    Task UpdateCredentialsEncryption(int accountId, string newPassword, CancellationToken ct = default);
 }
 
 public class CredentialsService : ICredentialsService
@@ -32,8 +33,7 @@ public class CredentialsService : ICredentialsService
 
     public async Task<IList<CredentialsDto>> GetCredentials(int accountId, CancellationToken ct = default)
     {
-        var credentials = await _dbContext.Credentials.Where(x => x.AccountId == accountId).OrderBy(x => x.Id)
-            .ToListAsync(ct);
+        var credentials = await GetCredentialsEntity(accountId, ct);
         return _mapper.Map<IList<CredentialsDto>>(credentials);
     }
 
@@ -74,5 +74,22 @@ public class CredentialsService : ICredentialsService
         credential.AccountId = accountId;
         credential.Password = AesEncryptor.EncryptToHexString(credential.Password, account!.PasswordHash);
         return credential;
+    }
+
+    public async Task UpdateCredentialsEncryption(int accountId, string newPassword, CancellationToken ct = default)
+    {
+        var account = await _accountService.GetAccount(accountId, ct);
+        var credentials = await GetCredentialsEntity(accountId, ct);
+        foreach (var credential in credentials)
+        {
+            var pass = AesEncryptor.DecryptToString(credential.Password, account!.PasswordHash);
+            credential.Password = AesEncryptor.EncryptToHexString(pass, newPassword);
+        }
+    }
+
+    private async Task<IList<Credentials>> GetCredentialsEntity(int accountId, CancellationToken ct = default)
+    {
+        return await _dbContext.Credentials.Where(x => x.AccountId == accountId).OrderBy(x => x.Id)
+            .ToListAsync(ct);
     }
 }

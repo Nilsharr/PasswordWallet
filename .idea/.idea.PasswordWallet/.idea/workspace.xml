@@ -7,13 +7,23 @@
     <projectFile profileName="PasswordWallet.Server">Server/PasswordWallet.Server.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e55ad165-f18f-4c68-9384-b8fcf0107e0c" name="Changes" comment="" />
+    <list default="true" id="e55ad165-f18f-4c68-9384-b8fcf0107e0c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.PasswordWallet/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PasswordWallet/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Services/AuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Services/CredentialsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Services/CredentialsService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Server/appsettings.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/.nuget/packages/microsoft.net.test.sdk/17.1.0/build/netcoreapp2.1/Microsoft.NET.Test.Sdk.Program.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/aa1b9f881f1b457e97a85716c4d59d90149a00/21/55298a3d/DbContextExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/03d862f475e8dc77c0d4a89de92bebedebbea9e6c472e9671edf5afe2b2ac/Endpoint.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1267fd79b859b0c7d385c25d99ea7d8acbf82e5be844c3a96ff4e68d8388150/JWTBearer.cs" root0="SKIP_HIGHLIGHTING" />
@@ -157,13 +167,28 @@
       <workItem from="1666694995333" duration="6664000" />
       <workItem from="1666714813099" duration="13546000" />
       <workItem from="1666774222461" duration="9377000" />
+      <workItem from="1666788098148" duration="351000" />
+      <workItem from="1666789244908" duration="128000" />
+      <workItem from="1666807311102" duration="2428000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
