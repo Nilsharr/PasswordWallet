@@ -11,8 +11,11 @@
 *.sln.docstates
 
 # Rider
-**/.idea/workspace.xml 
-**/.idea/tasks.xml
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

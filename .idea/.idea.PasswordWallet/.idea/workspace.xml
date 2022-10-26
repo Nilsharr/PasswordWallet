@@ -7,7 +7,10 @@
     <projectFile profileName="PasswordWallet.Server">Server/PasswordWallet.Server.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e55ad165-f18f-4c68-9384-b8fcf0107e0c" name="Changes" comment="" />
+    <list default="true" id="e55ad165-f18f-4c68-9384-b8fcf0107e0c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Services/CredentialsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Services/CredentialsService.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -164,6 +167,7 @@
       <workItem from="1666788098148" duration="351000" />
       <workItem from="1666789244908" duration="128000" />
       <workItem from="1666807311102" duration="2505000" />
+      <workItem from="1666810776499" duration="478000" />
     </task>
     <servers />
   </component>
