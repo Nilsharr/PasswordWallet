@@ -1,0 +1,24 @@
+﻿@inherits LayoutComponentBase
+@inject IAccountService AccountService
+
+@if (LoggedIn)
+{
+    <!-- nav -->
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <div class="navbar-nav">
+            <NavLink href="" Match="NavLinkMatch.All" class="nav-item nav-link">Home</NavLink>
+            <NavLink href="credentials" class="nav-item nav-link">Credentials</NavLink>
+            <NavLink href="account/logout" class="nav-item nav-link">Logout</NavLink>
+            <NavLink href="account/change-password" class="nav-item nav-link">Change Password</NavLink>
+        </div>
+    </nav>
+}
+
+<div class="app-container @(LoggedIn ? "bg-light" : "")">
+    <Alert/>
+    @Body
+</div>
+
+@code {
+    public bool LoggedIn => AccountService.AuthorizationToken is not null && JwtHelper.CheckTokenIsValid(AccountService.AuthorizationToken);
+}

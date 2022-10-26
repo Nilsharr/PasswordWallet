@@ -1,0 +1,12 @@
+﻿@page "/account/logout"
+@layout MainLayout
+@inject IAccountService AccountService
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        AccountService.Logout();
+    }
+
+}
