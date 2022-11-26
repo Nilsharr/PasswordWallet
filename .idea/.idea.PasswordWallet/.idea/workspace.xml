@@ -8,8 +8,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e55ad165-f18f-4c68-9384-b8fcf0107e0c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.PasswordWallet/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PasswordWallet/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PasswordWallet.sln" beforeDir="false" afterPath="$PROJECT_DIR$/PasswordWallet.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Services/AuthService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/Services/CredentialsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Services/CredentialsService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Utils/AesEncryptor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Utils/CryptoUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Server/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/PasswordWallet.Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/PasswordWallet.UnitTests.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/UnitTest1.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,7 +174,10 @@
       <workItem from="1666788098148" duration="351000" />
       <workItem from="1666789244908" duration="128000" />
       <workItem from="1666807311102" duration="2505000" />
-      <workItem from="1666810776499" duration="478000" />
+      <workItem from="1666810776499" duration="631000" />
+      <workItem from="1666998083868" duration="182000" />
+      <workItem from="1669151752142" duration="713000" />
+      <workItem from="1669487922935" duration="1921000" />
     </task>
     <servers />
   </component>

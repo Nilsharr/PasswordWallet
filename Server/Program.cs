@@ -18,10 +18,9 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.AddAuthenticationJWTBearer(builder.Configuration.GetSection("AppSettings")["JwtSigningKey"]);
 
-
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContextPool<PasswordWalletDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("PasswordWalletConnectionLocal"))
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PasswordWalletConnection"))
         .UseSnakeCaseNamingConvention());
 
 builder.Services.AddFastEndpoints();
