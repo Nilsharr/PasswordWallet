@@ -22,7 +22,6 @@ public class AuthService : IAuthService
     private readonly AppSettings _appSettings;
     private readonly IAccountService _accountService;
     private readonly ICredentialsService _credentialsService;
-    private static readonly RandomNumberGenerator Random = RandomNumberGenerator.Create();
 
     public AuthService(IOptions<AppSettings> appSettings, IAccountService accountService,
         ICredentialsService credentialsService)
@@ -45,7 +44,7 @@ public class AuthService : IAuthService
     {
         var account = await _accountService.GetAccount(accountId);
         var credential = await _credentialsService.GetCredential(accountId, credentialId);
-        return AesEncryptor.DecryptToString(credential.Password, account!.PasswordHash);
+        return CryptoUtils.AesDecryptToString(credential.Password, account!.PasswordHash);
     }
 
     public async Task<(bool valid, int? accountId)> CredentialsAreValid(LoginRequestDto req,
@@ -62,9 +61,8 @@ public class AuthService : IAuthService
             return (account.PasswordHash == HashPasswordSha512(req.Password, account.Salt).hashedPassword, account.Id);
         }
 
-        //TODO move HexStringToBytes to utils class? (and GenerateSalt?)
         return (
-            account.PasswordHash == HashPasswordHmac(req.Password, AesEncryptor.HexStringToBytes(account.Salt!))
+            account.PasswordHash == HashPasswordHmac(req.Password, CryptoUtils.HexStringToBytes(account.Salt!))
                 .hashedPassword, account.Id);
     }
 
@@ -83,7 +81,7 @@ public class AuthService : IAuthService
 
     private (string hashedPassword, string salt) HashPasswordSha512(string password, string? salt = null)
     {
-        salt ??= GenerateSalt(64);
+        salt ??= CryptoUtils.GenerateSalt(64);
         password = _appSettings.PasswordPepper + salt + password;
         var bytes = Encoding.UTF8.GetBytes(password);
         var sha512 = SHA512.HashData(bytes);
@@ -96,12 +94,5 @@ public class AuthService : IAuthService
         key = hmac.Key;
         var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
         return (Convert.ToHexString(hash), Convert.ToHexString(key));
-    }
-
-    private static string GenerateSalt(int saltLength)
-    {
-        var salt = new byte[saltLength];
-        Random.GetBytes(salt);
-        return Convert.ToHexString(salt);
     }
 }

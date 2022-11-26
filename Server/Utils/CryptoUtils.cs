@@ -3,11 +3,12 @@ using System.Text;
 
 namespace PasswordWallet.Server.Utils;
 
-public static class AesEncryptor
+public static class CryptoUtils
 {
+    private static readonly RandomNumberGenerator Random = RandomNumberGenerator.Create();
     private const int AesBlockByteSize = 128 / 8;
 
-    public static string EncryptToHexString(string toEncrypt, string password)
+    public static string AesEncryptToHexString(string toEncrypt, string password)
     {
         var key = GetKey(password);
 
@@ -24,7 +25,7 @@ public static class AesEncryptor
         return Convert.ToHexString(result);
     }
 
-    public static string DecryptToString(string hexString, string password)
+    public static string AesDecryptToString(string hexString, string password)
     {
         var encryptedData = HexStringToBytes(hexString);
         var key = GetKey(password);
@@ -38,6 +39,13 @@ public static class AesEncryptor
             .TransformFinalBlock(cipherText, 0, cipherText.Length);
 
         return Encoding.UTF8.GetString(decryptedBytes);
+    }
+
+    public static string GenerateSalt(int saltLength)
+    {
+        var salt = new byte[saltLength];
+        Random.GetBytes(salt);
+        return Convert.ToHexString(salt);
     }
 
     public static byte[] HexStringToBytes(string hexString)

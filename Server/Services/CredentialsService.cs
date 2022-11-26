@@ -72,7 +72,7 @@ public class CredentialsService : ICredentialsService
         var credential = _mapper.Map<Credentials>(credentialDto);
         var account = await _accountService.GetAccount(accountId, ct);
         credential.AccountId = accountId;
-        credential.Password = AesEncryptor.EncryptToHexString(credential.Password, account!.PasswordHash);
+        credential.Password = CryptoUtils.AesEncryptToHexString(credential.Password, account!.PasswordHash);
         return credential;
     }
 
@@ -82,8 +82,8 @@ public class CredentialsService : ICredentialsService
         var credentials = await GetCredentialsEntity(accountId, ct);
         foreach (var credential in credentials)
         {
-            var pass = AesEncryptor.DecryptToString(credential.Password, account!.PasswordHash);
-            credential.Password = AesEncryptor.EncryptToHexString(pass, newPassword);
+            var pass = CryptoUtils.AesDecryptToString(credential.Password, account!.PasswordHash);
+            credential.Password = CryptoUtils.AesEncryptToHexString(pass, newPassword);
         }
 
         await _dbContext.SaveChangesAsync(ct);
