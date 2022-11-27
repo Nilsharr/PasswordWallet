@@ -43,6 +43,11 @@ public static class CryptoUtils
 
     public static string GenerateSalt(int saltLength)
     {
+        if (saltLength < 1)
+        {
+            throw new ArgumentException("Argument must be a positive number", nameof(saltLength));
+        }
+
         var salt = new byte[saltLength];
         Random.GetBytes(salt);
         return Convert.ToHexString(salt);
@@ -50,6 +55,11 @@ public static class CryptoUtils
 
     public static byte[] HexStringToBytes(string hexString)
     {
+        if (hexString is null)
+        {
+            throw new ArgumentNullException(nameof(hexString), "Argument cannot be null");
+        }
+
         var bytes = new byte[hexString.Length / 2];
         for (var i = 0; i < bytes.Length; i++)
         {
