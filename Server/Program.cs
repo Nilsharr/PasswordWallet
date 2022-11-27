@@ -16,7 +16,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICredentialsService, CredentialsService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-builder.Services.AddAuthenticationJWTBearer(builder.Configuration.GetSection("AppSettings")["JwtSigningKey"]);
+builder.Services.AddAuthenticationJWTBearer(builder.Configuration.GetSection("AppSettings")["JwtSigningKey"] ??
+                                            throw new InvalidOperationException());
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContextPool<PasswordWalletDbContext>(options =>
@@ -35,14 +36,6 @@ if (builder.Environment.IsDevelopment())
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseWebAssemblyDebugging();
-    app.UseOpenApi();
-    app.UseSwaggerUi3(s => s.ConfigureDefaults());
-}
-
 //app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
@@ -56,6 +49,14 @@ app.UseFastEndpoints(c =>
     c.Endpoints.ShortNames = true;
     c.Serializer.Options.PropertyNamingPolicy = null;
 });
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseWebAssemblyDebugging();
+    app.UseOpenApi();
+    app.UseSwaggerUi3(s => s.ConfigureDefaults());
+}
 
 //NOTE: run `dotnet run --generateclients true` to update the ApiClient 
 
