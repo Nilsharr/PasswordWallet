@@ -2,7 +2,7 @@
 using FluentAssertions;
 using PasswordWallet.Server.Utils;
 
-namespace PasswordWallet.UnitTests;
+namespace PasswordWallet.UnitTests.UtilsTests;
 
 public class CryptoUtilsTests
 {
