@@ -67,15 +67,6 @@ public class CredentialsService : ICredentialsService
         await _dbContext.Credentials.Where(x => x.AccountId == accountId && x.Id == credentialId).DeleteAsync(ct);
     }
 
-    private async Task<Credentials> ProcessAddUpdate(int accountId, CredentialsDto credentialDto, CancellationToken ct)
-    {
-        var credential = _mapper.Map<Credentials>(credentialDto);
-        var account = await _accountService.GetAccount(accountId, ct);
-        credential.AccountId = accountId;
-        credential.Password = CryptoUtils.AesEncryptToHexString(credential.Password, account!.PasswordHash);
-        return credential;
-    }
-
     public async Task UpdateCredentialsEncryption(int accountId, string newPassword, CancellationToken ct = default)
     {
         var account = await _accountService.GetAccount(accountId, ct);
@@ -87,6 +78,15 @@ public class CredentialsService : ICredentialsService
         }
 
         await _dbContext.SaveChangesAsync(ct);
+    }
+
+    private async Task<Credentials> ProcessAddUpdate(int accountId, CredentialsDto credentialDto, CancellationToken ct)
+    {
+        var credential = _mapper.Map<Credentials>(credentialDto);
+        var account = await _accountService.GetAccount(accountId, ct);
+        credential.AccountId = accountId;
+        credential.Password = CryptoUtils.AesEncryptToHexString(credential.Password, account!.PasswordHash);
+        return credential;
     }
 
     private async Task<IList<Credentials>> GetCredentialsEntity(int accountId, CancellationToken ct = default)

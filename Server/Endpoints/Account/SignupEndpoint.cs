@@ -24,6 +24,7 @@ public class SignupEndpoint : Endpoint<SignupRequestDto>
     public override async Task HandleAsync(SignupRequestDto req, CancellationToken ct)
     {
         //TODO: Add this check to validator
+        //TODO: Add logging
         if (await _accountService.AccountExists(req.Login, ct))
         {
             ThrowError("Login is already taken");
