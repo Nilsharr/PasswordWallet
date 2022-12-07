@@ -48,7 +48,7 @@ public static class CryptoUtils
             throw new ArgumentException("Argument must be a positive number", nameof(saltLength));
         }
 
-        var salt = new byte[saltLength];
+        var salt = new byte[saltLength / 2];
         Random.GetBytes(salt);
         return Convert.ToHexString(salt);
     }

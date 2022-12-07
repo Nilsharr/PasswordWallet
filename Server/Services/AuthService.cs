@@ -81,7 +81,7 @@ public class AuthService : IAuthService
 
     private (string hashedPassword, string salt) HashPasswordSha512(string password, string? salt = null)
     {
-        salt ??= CryptoUtils.GenerateSalt(64);
+        salt ??= CryptoUtils.GenerateSalt(128);
         password = _appSettings.PasswordPepper + salt + password;
         var bytes = Encoding.UTF8.GetBytes(password);
         var sha512 = SHA512.HashData(bytes);

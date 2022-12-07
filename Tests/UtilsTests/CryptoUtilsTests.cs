@@ -86,7 +86,7 @@ public class CryptoUtilsTests
         var actual = CryptoUtils.GenerateSalt(length);
 
         // Assert
-        actual.Should().BeHexString().And.HaveLength(length * 2);
+        actual.Should().BeHexString().And.HaveLength(length);
     }
 
     [Theory]
