@@ -34,7 +34,6 @@ public class AccountService : IAccountService
     {
         return _mapper.Map<AccountDto>(
             await _dbContext.Account.FindAsync(new object?[] {accountId}, cancellationToken: ct));
-        //return _mapper.Map<AccountDto>(await _dbContext.Account.Where(x => x.Id == accountId).SingleOrDefaultAsync(ct));
     }
 
     public async Task<AccountDto?> GetAccount(string login, CancellationToken ct = default)
@@ -53,7 +52,6 @@ public class AccountService : IAccountService
     public async Task UpdatePassword(int accountId, (string newPassword, string salt) hash, bool isPasswordKeptAsHash,
         CancellationToken ct = default)
     {
-        //var account = await _dbContext.Account.Where(x => x.Id == accountId).SingleAsync(ct);
         var account = await _dbContext.Account.FindAsync(new object?[] {accountId}, cancellationToken: ct);
         account!.PasswordHash = hash.newPassword;
         account.Salt = hash.salt;
