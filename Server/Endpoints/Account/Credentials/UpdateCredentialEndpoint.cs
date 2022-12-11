@@ -31,9 +31,8 @@ public class UpdateCredentialEndpoint : Endpoint<CredentialsDto, CredentialsDto>
             return;
         }
 
-        var credential =
-            await _credentialsService.EncryptAndUpdateCredential(req.AccountId.Value,
-                _mapper.Map<Entities.Credentials>(req), ct);
+        var credential = await _credentialsService.EncryptAndUpdateCredential(req.AccountId.Value,
+            _mapper.Map<Entities.Credentials>(req), ct);
         await SendAsync(_mapper.Map<CredentialsDto>(credential), cancellation: ct);
     }
 }

@@ -8,46 +8,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e55ad165-f18f-4c68-9384-b8fcf0107e0c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Server/Repositories/AccountRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Server/Repositories/CredentialsRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Server/Repositories/IRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Server/Services/CryptoService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Helpers/ExtensionMethods.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Helpers/ExtensionMethods.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/HttpClient/ApiClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/HttpClient/ApiClient.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Models/Alert.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Models/Alert.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.PasswordWallet/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PasswordWallet/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Pages/Credentials/Edit.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/Credentials/Edit.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/Pages/Credentials/Index.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/Credentials/Index.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/PasswordWallet.Client.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Client/PasswordWallet.Client.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Shared/MainLayout.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Shared/MainLayout.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Data/Migrations/20221025234222_InitialCreate.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Data/Migrations/20221025234222_InitialCreate.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Data/Migrations/PasswordWalletDbContextModelSnapshot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Endpoints/Account/ChangePasswordEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Endpoints/Account/ChangePasswordEndpoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Endpoints/Account/Credentials/AddCredentialEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Endpoints/Account/Credentials/AddCredentialEndpoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Endpoints/Account/Credentials/DeleteCredentialEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Endpoints/Account/Credentials/DeleteCredentialEndpoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Endpoints/Account/Credentials/GetCredentialEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Endpoints/Account/Credentials/GetCredentialEndpoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Endpoints/Account/Credentials/GetCredentialsEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Endpoints/Account/Credentials/GetCredentialsEndpoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Endpoints/Account/Credentials/GetDecryptedPasswordEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Endpoints/Account/Credentials/GetDecryptedPasswordEndpoint.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/Endpoints/Account/Credentials/UpdateCredentialEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Endpoints/Account/Credentials/UpdateCredentialEndpoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Endpoints/Account/LoginEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Endpoints/Account/LoginEndpoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Endpoints/Account/SignupEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Endpoints/Account/SignupEndpoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Entities/Account.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Entities/Account.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Entities/Credentials.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Entities/Credentials.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/PasswordWallet.Server.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Server/PasswordWallet.Server.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Services/AccountService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Services/AuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Repositories/CredentialsRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Repositories/CredentialsRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/Services/CredentialsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Services/CredentialsService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Utils/CryptoUtils.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Utils/JwtClaims.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Shared/Dtos/AccountDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/Dtos/AccountDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Shared/Dtos/AuthorizationResponseDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/Dtos/AuthorizationResponseDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Shared/Dtos/ChangePasswordRequestDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/Dtos/ChangePasswordRequestDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Shared/Dtos/CredentialsDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/Dtos/CredentialsDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Shared/Dtos/IdRequestDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/Dtos/IdRequestDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Shared/PasswordWallet.Shared.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/PasswordWallet.Shared.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UnitTests/PasswordWallet.UnitTests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/UnitTests/PasswordWallet.UnitTests.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UnitTests/UtilsTests/CryptoUtilsTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UnitTests/ServicesTests/CryptoServiceTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shared/Dtos/DecryptedPasswordResponseDto.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,10 +56,16 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ed6e34765c2fbd38a5ac568c212875b7902685e4cdab40a8e568c09db42aaf/Endpoint.Setup.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f4708639776589f5ac2739f6fcbfc67343b1f9dac51cc1dbfdb003eef77cc1c/Monitor.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f5545b2656401abe1a371ad2756d7d2328a38293f7ee8b163801bbf55cee8/TestInvoker.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Grzesiek/source/repos/PasswordWallet/Client/Pages/Credentials/Edit.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Grzesiek/source/repos/PasswordWallet/Client/Pages/Credentials/Index.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Client/wwwroot/css/bootstrap/bootstrap.min.css.map" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Grzesiek/source/repos/PasswordWallet/Server/Endpoints/Account/Credentials/UpdateCredentialEndpoint.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Server/Entities/Account.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Server/Entities/Credentials.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Server/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Grzesiek/source/repos/PasswordWallet/Server/Repositories/CredentialsRepository.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Grzesiek/source/repos/PasswordWallet/Server/Services/CredentialsService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Grzesiek/source/repos/PasswordWallet/Shared/Dtos/CredentialsDto.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -245,7 +219,7 @@
       <workItem from="1670698052338" duration="1206000" />
       <workItem from="1670699678984" duration="20688000" />
       <workItem from="1670725122152" duration="1234000" />
-      <workItem from="1670760568502" duration="16272000" />
+      <workItem from="1670760568502" duration="26758000" />
     </task>
     <servers />
   </component>

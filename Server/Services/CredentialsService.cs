@@ -44,7 +44,12 @@ public class CredentialsService : ICredentialsService
     public async Task<Credentials> EncryptAndUpdateCredential(long accountId, Credentials credential,
         CancellationToken ct = default)
     {
-        credential = await EncryptCredential(accountId, credential, ct);
+        var currentPassword = await _credentialsRepository.GetPassword(credential.Id, ct);
+        if (credential.Password != currentPassword)
+        {
+            credential = await EncryptCredential(accountId, credential, ct);
+        }
+
         _credentialsRepository.Update(credential);
         await _credentialsRepository.SaveChanges(ct);
         return credential;
@@ -54,7 +59,6 @@ public class CredentialsService : ICredentialsService
         CancellationToken ct = default)
     {
         var account = await _accountRepository.Get(accountId, ct);
-        credential.AccountId = accountId;
         credential.Password = _cryptoService.AesEncryptToHexString(credential.Password, account!.PasswordHash);
         return credential;
     }

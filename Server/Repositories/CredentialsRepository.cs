@@ -9,6 +9,7 @@ public interface ICredentialsRepository : IRepository<Credentials>
 {
     Task<IReadOnlyList<Credentials>> GetAll(long accountId, CancellationToken ct = default);
     Task<Credentials?> GetWithAccount(long credentialId, CancellationToken ct = default);
+    Task<string?> GetPassword(long credentialId, CancellationToken ct = default);
     Task SaveChanges(CancellationToken ct = default);
 }
 
@@ -29,6 +30,12 @@ public class CredentialsRepository : ICredentialsRepository
     public async Task<Credentials?> Get(long credentialId, CancellationToken ct = default)
     {
         return await _dbContext.Credentials.FindAsync(new object?[] {credentialId}, cancellationToken: ct);
+    }
+
+    public async Task<string?> GetPassword(long credentialId, CancellationToken ct = default)
+    {
+        return await _dbContext.Credentials.Where(x => x.Id == credentialId).Select(x => x.Password)
+            .SingleOrDefaultAsync(ct);
     }
 
     public async Task<Credentials?> GetWithAccount(long credentialId, CancellationToken ct = default)
