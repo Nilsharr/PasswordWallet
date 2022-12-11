@@ -1,14 +1,50 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Options;
+using PasswordWallet.Server.Utils;
 
-namespace PasswordWallet.Server.Utils;
+namespace PasswordWallet.Server.Services;
 
-public static class CryptoUtils
+public interface ICryptoService
 {
+    (string hashedPassword, string salt) HashSha512(string password, string? salt = null);
+    (string hashedPassword, string salt) HashHmac(string password, byte[]? key = null);
+    string AesEncryptToHexString(string toEncrypt, string password);
+    string AesDecryptToString(string hexString, string password);
+    string GenerateSalt(int saltLength);
+    byte[] HexStringToBytes(string hexString);
+}
+
+public class CryptoService : ICryptoService
+{
+    private readonly AppSettings _appSettings;
+
     private static readonly RandomNumberGenerator Random = RandomNumberGenerator.Create();
     private const int AesBlockByteSize = 128 / 8;
 
-    public static string AesEncryptToHexString(string toEncrypt, string password)
+    public CryptoService(IOptions<AppSettings> appSettings)
+    {
+        _appSettings = appSettings.Value;
+    }
+
+    public (string hashedPassword, string salt) HashSha512(string password, string? salt = null)
+    {
+        salt ??= GenerateSalt(128);
+        password = _appSettings.PasswordPepper + salt + password;
+        var bytes = Encoding.UTF8.GetBytes(password);
+        var sha512 = SHA512.HashData(bytes);
+        return (Convert.ToHexString(sha512), salt);
+    }
+
+    public (string hashedPassword, string salt) HashHmac(string password, byte[]? key = null)
+    {
+        using var hmac = key is null ? new HMACSHA512() : new HMACSHA512(key);
+        key = hmac.Key;
+        var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+        return (Convert.ToHexString(hash), Convert.ToHexString(key));
+    }
+
+    public string AesEncryptToHexString(string toEncrypt, string password)
     {
         var key = GetKey(password);
 
@@ -25,7 +61,7 @@ public static class CryptoUtils
         return Convert.ToHexString(result);
     }
 
-    public static string AesDecryptToString(string hexString, string password)
+    public string AesDecryptToString(string hexString, string password)
     {
         var encryptedData = HexStringToBytes(hexString);
         var key = GetKey(password);
@@ -41,7 +77,7 @@ public static class CryptoUtils
         return Encoding.UTF8.GetString(decryptedBytes);
     }
 
-    public static string GenerateSalt(int saltLength)
+    public string GenerateSalt(int saltLength)
     {
         if (saltLength < 1)
         {
@@ -53,7 +89,7 @@ public static class CryptoUtils
         return Convert.ToHexString(salt);
     }
 
-    public static byte[] HexStringToBytes(string hexString)
+    public byte[] HexStringToBytes(string hexString)
     {
         if (hexString is null)
         {

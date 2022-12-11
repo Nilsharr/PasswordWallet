@@ -20,5 +20,5 @@
 </div>
 
 @code {
-    public bool LoggedIn => AccountService.AuthorizationToken is not null && JwtHelper.CheckTokenIsValid(AccountService.AuthorizationToken);
+    private bool LoggedIn => AccountService.AuthorizationToken is not null && JwtHelper.CheckTokenIsValid(AccountService.AuthorizationToken);
 }

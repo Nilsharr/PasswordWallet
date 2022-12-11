@@ -5,12 +5,12 @@ namespace PasswordWallet.Server.Entities;
 
 public class Account : IEntityTypeConfiguration<Account>
 {
-    public int Id { get; set; }
+    public long Id { get; set; }
     public string Login { get; set; } = default!;
     public string PasswordHash { get; set; } = default!;
     public string Salt { get; set; } = default!;
     public bool IsPasswordKeptAsHash { get; set; }
-    public List<Credentials> Credentials { get; set; } = default!;
+    public IList<Credentials> Credentials { get; set; } = default!;
 
     void IEntityTypeConfiguration<Account>.Configure(EntityTypeBuilder<Account> builder)
     {

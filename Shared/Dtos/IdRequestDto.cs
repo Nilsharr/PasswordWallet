@@ -1,6 +1,9 @@
-﻿namespace PasswordWallet.Shared.Dtos;
+﻿using FastEndpoints;
+
+namespace PasswordWallet.Shared.Dtos;
 
 public class IdRequestDto
 {
-    public int Id { get; set; }
+    [FromClaim] public long? AccountId { get; set; }
+    public long Id { get; set; }
 }

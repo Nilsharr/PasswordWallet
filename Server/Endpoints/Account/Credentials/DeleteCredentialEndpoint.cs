@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using PasswordWallet.Server.Services;
+﻿using PasswordWallet.Server.Repositories;
 using PasswordWallet.Shared.Dtos;
 using PasswordWallet.Server.Utils;
 
@@ -7,11 +6,11 @@ namespace PasswordWallet.Server.Endpoints.Account.Credentials;
 
 public class DeleteCredentialEndpoint : Endpoint<IdRequestDto>
 {
-    private readonly ICredentialsService _credentialsService;
+    private readonly ICredentialsRepository _credentialsRepository;
 
-    public DeleteCredentialEndpoint(ICredentialsService credentialsService)
+    public DeleteCredentialEndpoint(ICredentialsRepository credentialsRepository)
     {
-        _credentialsService = credentialsService;
+        _credentialsRepository = credentialsRepository;
     }
 
     public override void Configure()
@@ -23,14 +22,13 @@ public class DeleteCredentialEndpoint : Endpoint<IdRequestDto>
 
     public override async Task HandleAsync(IdRequestDto req, CancellationToken ct)
     {
-        var accountId = JwtClaims.GetAccountIdFromClaims(HttpContext.User.Identity as ClaimsIdentity);
-        if (accountId is null)
+        if (req.AccountId is null)
         {
             await SendUnauthorizedAsync(ct);
             return;
         }
 
-        await _credentialsService.DeleteCredential(accountId.Value, req.Id, ct);
+        await _credentialsRepository.Delete(req.Id, ct);
         await SendOkAsync(ct);
     }
 }

@@ -3,9 +3,9 @@
 public class Alert
 {
     public string? Id { get; set; }
-    public AlertType Type { get; set; }
-    public string? Message { get; set; }
-    public bool AutoClose { get; set; }
+    public AlertType Type { get; init; }
+    public string? Message { get; init; }
+    public bool AutoClose { get; init; }
     public bool KeepAfterRouteChange { get; set; }
     public bool Fade { get; set; }
 }

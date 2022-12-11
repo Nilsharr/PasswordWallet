@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using PasswordWallet.Server.Services;
+﻿using PasswordWallet.Server.Services;
 using PasswordWallet.Server.Utils;
 using PasswordWallet.Shared.Dtos;
 
@@ -7,11 +6,11 @@ namespace PasswordWallet.Server.Endpoints.Account.Credentials;
 
 public class GetDecryptedPasswordEndpoint : Endpoint<IdRequestDto, string>
 {
-    private readonly IAuthService _authService;
+    private readonly ICredentialsService _credentialsService;
 
-    public GetDecryptedPasswordEndpoint(IAuthService authService)
+    public GetDecryptedPasswordEndpoint(ICredentialsService credentialsService)
     {
-        _authService = authService;
+        _credentialsService = credentialsService;
     }
 
     public override void Configure()
@@ -23,14 +22,13 @@ public class GetDecryptedPasswordEndpoint : Endpoint<IdRequestDto, string>
 
     public override async Task HandleAsync(IdRequestDto req, CancellationToken ct)
     {
-        var accountId = JwtClaims.GetAccountIdFromClaims(HttpContext.User.Identity as ClaimsIdentity);
-        if (accountId is null)
+        if (req.AccountId is null)
         {
             await SendUnauthorizedAsync(ct);
             return;
         }
 
-        var password = await _authService.DecryptPassword(accountId.Value, req.Id);
+        var password = await _credentialsService.DecryptPassword(req.AccountId.Value, req.Id);
         await SendAsync(password, cancellation: ct);
     }
 }

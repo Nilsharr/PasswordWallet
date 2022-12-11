@@ -2,18 +2,17 @@
 using System.Collections.Specialized;
 using System.Web;
 
-namespace PasswordWallet.Client.Helpers
-{
-    public static class ExtensionMethods
-    {
-        public static NameValueCollection QueryString(this NavigationManager navigationManager)
-        {
-            return HttpUtility.ParseQueryString(new Uri(navigationManager.Uri).Query);
-        }
+namespace PasswordWallet.Client.Helpers;
 
-        public static string? QueryString(this NavigationManager navigationManager, string key)
-        {
-            return navigationManager.QueryString()[key];
-        }
+public static class ExtensionMethods
+{
+    public static NameValueCollection QueryString(this NavigationManager navigationManager)
+    {
+        return HttpUtility.ParseQueryString(new Uri(navigationManager.Uri).Query);
+    }
+
+    public static string? QueryString(this NavigationManager navigationManager, string key)
+    {
+        return navigationManager.QueryString()[key];
     }
 }

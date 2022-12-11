@@ -1,17 +1,18 @@
-﻿using PasswordWallet.Server.Services;
+﻿using PasswordWallet.Server.Repositories;
+using PasswordWallet.Server.Services;
 using PasswordWallet.Shared.Dtos;
 
 namespace PasswordWallet.Server.Endpoints.Account;
 
 public class SignupEndpoint : Endpoint<SignupRequestDto>
 {
-    private readonly IAuthService _authService;
-    private readonly IAccountService _accountService;
+    private readonly ICryptoService _cryptoService;
+    private readonly IAccountRepository _accountRepository;
 
-    public SignupEndpoint(IAuthService authService, IAccountService accountService)
+    public SignupEndpoint(ICryptoService cryptoService, IAccountRepository accountRepository)
     {
-        _authService = authService;
-        _accountService = accountService;
+        _cryptoService = cryptoService;
+        _accountRepository = accountRepository;
     }
 
     public override void Configure()
@@ -25,20 +26,24 @@ public class SignupEndpoint : Endpoint<SignupRequestDto>
     {
         //TODO: Add this check to validator
         //TODO: Add logging
-        if (await _accountService.AccountExists(req.Login, ct))
+        if (await _accountRepository.Exists(req.Login, ct))
         {
             ThrowError("Login is already taken");
         }
 
-        var hash = _authService.HashPassword(req.Password, req.IsPasswordKeptAsHash);
-        var account = new AccountDto
+        var hash = req.IsPasswordKeptAsHash
+            ? _cryptoService.HashSha512(req.Password)
+            : _cryptoService.HashHmac(req.Password);
+
+        var account = new Entities.Account
         {
             Login = req.Login,
             PasswordHash = hash.hashedPassword,
             IsPasswordKeptAsHash = req.IsPasswordKeptAsHash,
             Salt = hash.salt
         };
-        await _accountService.AddAccount(account, ct);
+        _accountRepository.Add(account);
+        await _accountRepository.SaveChanges(ct);
         await SendOkAsync(ct);
     }
 }

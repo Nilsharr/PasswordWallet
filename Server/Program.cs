@@ -8,6 +8,7 @@ using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
 using NJsonSchema.CodeGeneration.CSharp;
 using PasswordWallet.Server.Data;
+using PasswordWallet.Server.Repositories;
 using PasswordWallet.Server.Services;
 using PasswordWallet.Server.Utils;
 
@@ -15,9 +16,11 @@ using PasswordWallet.Server.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<ICredentialsRepository, CredentialsRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICryptoService, CryptoService>();
 builder.Services.AddScoped<ICredentialsService, CredentialsService>();
-builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.AddAuthenticationJWTBearer(builder.Configuration.GetSection("AppSettings")["JwtSigningKey"] ??
                                             throw new InvalidOperationException());

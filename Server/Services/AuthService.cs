@@ -1,7 +1,7 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using FastEndpoints.Security;
+﻿using FastEndpoints.Security;
 using Microsoft.Extensions.Options;
+using PasswordWallet.Server.Entities;
+using PasswordWallet.Server.Repositories;
 using PasswordWallet.Server.Utils;
 using PasswordWallet.Shared.Dtos;
 using Constants = PasswordWallet.Server.Utils.Constants;
@@ -10,28 +10,26 @@ namespace PasswordWallet.Server.Services;
 
 public interface IAuthService
 {
-    string GenerateJwtToken(int accountId);
-    Task<string> DecryptPassword(int accountId, int credentialId);
-    Task<(bool valid, int? accountId)> CredentialsAreValid(LoginRequestDto req, CancellationToken ct = default);
-    (string hashedPassword, string salt) HashPassword(string password, bool isPasswordKeptAsHash);
-    Task ChangePassword(int accountId, string newPassword, bool isPasswordKeptAsHash, CancellationToken ct = default);
+    string GenerateJwtToken(long accountId);
+    Task<(bool valid, long? accountId)> AreCredentialsValid(LoginRequestDto req, CancellationToken ct = default);
+    Task ChangePassword(long accountId, string newPassword, bool isPasswordKeptAsHash, CancellationToken ct = default);
 }
 
 public class AuthService : IAuthService
 {
     private readonly AppSettings _appSettings;
-    private readonly IAccountService _accountService;
-    private readonly ICredentialsService _credentialsService;
+    private readonly IAccountRepository _accountRepository;
+    private readonly ICryptoService _cryptoService;
 
-    public AuthService(IOptions<AppSettings> appSettings, IAccountService accountService,
-        ICredentialsService credentialsService)
+    public AuthService(IOptions<AppSettings> appSettings, IAccountRepository accountRepository,
+        ICryptoService cryptoService)
     {
         _appSettings = appSettings.Value;
-        _accountService = accountService;
-        _credentialsService = credentialsService;
+        _accountRepository = accountRepository;
+        _cryptoService = cryptoService;
     }
 
-    public string GenerateJwtToken(int accountId)
+    public string GenerateJwtToken(long accountId)
     {
         return JWTBearer.CreateToken(
             signingKey: _appSettings.JwtSigningKey,
@@ -40,17 +38,10 @@ public class AuthService : IAuthService
         );
     }
 
-    public async Task<string> DecryptPassword(int accountId, int credentialId)
-    {
-        var account = await _accountService.GetAccount(accountId);
-        var credential = await _credentialsService.GetCredential(accountId, credentialId);
-        return CryptoUtils.AesDecryptToString(credential.Password, account!.PasswordHash);
-    }
-
-    public async Task<(bool valid, int? accountId)> CredentialsAreValid(LoginRequestDto req,
+    public async Task<(bool valid, long? accountId)> AreCredentialsValid(LoginRequestDto req,
         CancellationToken ct = default)
     {
-        var account = await _accountService.GetAccount(req.Login, ct);
+        var account = await _accountRepository.Get(req.Login, ct);
         if (account is null)
         {
             return (false, null);
@@ -58,41 +49,39 @@ public class AuthService : IAuthService
 
         if (account.IsPasswordKeptAsHash)
         {
-            return (account.PasswordHash == HashPasswordSha512(req.Password, account.Salt).hashedPassword, account.Id);
+            return (account.PasswordHash == _cryptoService.HashSha512(req.Password, account.Salt).hashedPassword,
+                account.Id);
         }
 
         return (
-            account.PasswordHash == HashPasswordHmac(req.Password, CryptoUtils.HexStringToBytes(account.Salt!))
+            account.PasswordHash == _cryptoService.HashHmac(req.Password, _cryptoService.HexStringToBytes(account.Salt))
                 .hashedPassword, account.Id);
     }
 
-    public (string hashedPassword, string salt) HashPassword(string password, bool isPasswordKeptAsHash)
-    {
-        return isPasswordKeptAsHash ? HashPasswordSha512(password) : HashPasswordHmac(password);
-    }
-
-    public async Task ChangePassword(int accountId, string newPassword, bool isPasswordKeptAsHash,
+    public async Task ChangePassword(long accountId, string newPassword, bool isPasswordKeptAsHash,
         CancellationToken ct = default)
     {
-        var hash = HashPassword(newPassword, isPasswordKeptAsHash);
-        await _credentialsService.UpdateCredentialsEncryption(accountId, hash.hashedPassword, ct);
-        await _accountService.UpdatePassword(accountId, hash, isPasswordKeptAsHash, ct);
+        var account = await _accountRepository.GetWithCredentials(accountId, ct);
+        var oldPasswordHash = account!.PasswordHash;
+
+        var hash = isPasswordKeptAsHash ? _cryptoService.HashSha512(newPassword) : _cryptoService.HashHmac(newPassword);
+        account.PasswordHash = hash.hashedPassword;
+        account.Salt = hash.salt;
+        account.IsPasswordKeptAsHash = isPasswordKeptAsHash;
+        _accountRepository.Update(account);
+        await _accountRepository.SaveChanges(ct);
+
+        await UpdateCredentialsEncryption(account, oldPasswordHash, ct);
     }
 
-    private (string hashedPassword, string salt) HashPasswordSha512(string password, string? salt = null)
+    private async Task UpdateCredentialsEncryption(Account account, string oldPassword, CancellationToken ct = default)
     {
-        salt ??= CryptoUtils.GenerateSalt(128);
-        password = _appSettings.PasswordPepper + salt + password;
-        var bytes = Encoding.UTF8.GetBytes(password);
-        var sha512 = SHA512.HashData(bytes);
-        return (Convert.ToHexString(sha512), salt);
-    }
+        foreach (var credential in account.Credentials)
+        {
+            var pass = _cryptoService.AesDecryptToString(credential.Password, oldPassword);
+            credential.Password = _cryptoService.AesEncryptToHexString(pass, account.PasswordHash);
+        }
 
-    private static (string hashedPassword, string salt) HashPasswordHmac(string password, byte[]? key = null)
-    {
-        using var hmac = key is null ? new HMACSHA512() : new HMACSHA512(key);
-        key = hmac.Key;
-        var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-        return (Convert.ToHexString(hash), Convert.ToHexString(key));
+        await _accountRepository.SaveChanges(ct);
     }
 }

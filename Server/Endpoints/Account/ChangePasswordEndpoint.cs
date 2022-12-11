@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using PasswordWallet.Server.Services;
+﻿using PasswordWallet.Server.Services;
 using PasswordWallet.Shared.Dtos;
 using PasswordWallet.Server.Utils;
 
@@ -23,14 +22,13 @@ public class ChangePasswordEndpoint : Endpoint<ChangePasswordRequestDto>
 
     public override async Task HandleAsync(ChangePasswordRequestDto req, CancellationToken ct)
     {
-        var accountId = JwtClaims.GetAccountIdFromClaims(HttpContext.User.Identity as ClaimsIdentity);
-        if (accountId is null)
+        if (req.AccountId is null)
         {
             await SendUnauthorizedAsync(ct);
             return;
         }
 
-        await _authService.ChangePassword(accountId.Value, req.Password, req.IsPasswordKeptAsHash, ct);
+        await _authService.ChangePassword(req.AccountId.Value, req.Password, req.IsPasswordKeptAsHash, ct);
         await SendOkAsync(ct);
     }
 }

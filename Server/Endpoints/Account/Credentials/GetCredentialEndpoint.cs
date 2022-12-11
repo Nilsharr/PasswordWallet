@@ -1,17 +1,19 @@
-﻿using System.Security.Claims;
-using PasswordWallet.Server.Services;
+﻿using PasswordWallet.Server.Repositories;
 using PasswordWallet.Server.Utils;
 using PasswordWallet.Shared.Dtos;
+using IMapper = AutoMapper.IMapper;
 
 namespace PasswordWallet.Server.Endpoints.Account.Credentials;
 
 public class GetCredentialEndpoint : Endpoint<IdRequestDto, CredentialsDto>
 {
-    private readonly ICredentialsService _credentialsService;
+    private readonly ICredentialsRepository _credentialsRepository;
+    private readonly IMapper _mapper;
 
-    public GetCredentialEndpoint(ICredentialsService credentialsService)
+    public GetCredentialEndpoint(ICredentialsRepository credentialsRepository, IMapper mapper)
     {
-        _credentialsService = credentialsService;
+        _credentialsRepository = credentialsRepository;
+        _mapper = mapper;
     }
 
     public override void Configure()
@@ -23,14 +25,13 @@ public class GetCredentialEndpoint : Endpoint<IdRequestDto, CredentialsDto>
 
     public override async Task HandleAsync(IdRequestDto req, CancellationToken ct)
     {
-        var accountId = JwtClaims.GetAccountIdFromClaims(HttpContext.User.Identity as ClaimsIdentity);
-        if (accountId is null)
+        if (req.AccountId is null)
         {
             await SendUnauthorizedAsync(ct);
             return;
         }
 
-        var credentials = await _credentialsService.GetCredential(accountId.Value, req.Id, ct);
-        await SendAsync(credentials, cancellation: ct);
+        var credentials = await _credentialsRepository.Get(req.Id, ct);
+        await SendAsync(_mapper.Map<CredentialsDto>(credentials), cancellation: ct);
     }
 }

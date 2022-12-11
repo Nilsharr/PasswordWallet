@@ -21,7 +21,7 @@ public class LoginEndpoint : Endpoint<LoginRequestDto, AuthorizationResponseDto>
 
     public override async Task HandleAsync(LoginRequestDto req, CancellationToken ct)
     {
-        var areCredentialsValid = await _authService.CredentialsAreValid(req, ct);
+        var areCredentialsValid = await _authService.AreCredentialsValid(req, ct);
         if (areCredentialsValid.valid)
         {
             var jwtToken = _authService.GenerateJwtToken(areCredentialsValid.accountId!.Value);
