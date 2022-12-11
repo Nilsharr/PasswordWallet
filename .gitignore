@@ -11,6 +11,7 @@
 *.sln.docstates
 
 # Rider
+.idea/**/workspace.xml
 .idea/**/efCoreCommonOptions.xml
 .idea/**/efCoreDialogsState.xml
 .idea/**/tasks.xml
