@@ -28,7 +28,7 @@ public class GetDecryptedPasswordEndpoint : Endpoint<IdRequestDto, string>
             return;
         }
 
-        var password = await _credentialsService.DecryptPassword(req.AccountId.Value, req.Id);
+        var password = await _credentialsService.DecryptPassword(req.Id);
         await SendAsync(password, cancellation: ct);
     }
 }
