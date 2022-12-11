@@ -9,13 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e55ad165-f18f-4c68-9384-b8fcf0107e0c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PasswordWallet/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PasswordWallet/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Pages/Credentials/Edit.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/Credentials/Edit.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Pages/Credentials/Index.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Pages/Credentials/Index.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Endpoints/Account/Credentials/UpdateCredentialEndpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Endpoints/Account/Credentials/UpdateCredentialEndpoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Repositories/CredentialsRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Repositories/CredentialsRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/Services/CredentialsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Services/CredentialsService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Shared/Dtos/CredentialsDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/Dtos/CredentialsDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Shared/Dtos/DecryptedPasswordResponseDto.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,7 +213,7 @@
       <workItem from="1670698052338" duration="1206000" />
       <workItem from="1670699678984" duration="20688000" />
       <workItem from="1670725122152" duration="1234000" />
-      <workItem from="1670760568502" duration="26758000" />
+      <workItem from="1670760568502" duration="27398000" />
     </task>
     <servers />
   </component>

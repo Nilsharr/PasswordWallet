@@ -5,7 +5,7 @@ namespace PasswordWallet.Server.Services;
 
 public interface ICredentialsService
 {
-    Task<string> DecryptPassword(long accountId, long credentialId);
+    Task<string> DecryptPassword(long credentialId);
     Task<Credentials> EncryptAndSaveCredential(long accountId, Credentials credential, CancellationToken ct = default);
 
     Task<Credentials> EncryptAndUpdateCredential(long accountId, Credentials credential,
@@ -26,7 +26,7 @@ public class CredentialsService : ICredentialsService
         _cryptoService = cryptoService;
     }
 
-    public async Task<string> DecryptPassword(long accountId, long credentialId)
+    public async Task<string> DecryptPassword(long credentialId)
     {
         var credential = await _credentialsRepository.GetWithAccount(credentialId);
         return _cryptoService.AesDecryptToString(credential!.Password, credential.Account.PasswordHash);
