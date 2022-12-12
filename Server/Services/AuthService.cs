@@ -70,11 +70,11 @@ public class AuthService : IAuthService
         account.IsPasswordKeptAsHash = isPasswordKeptAsHash;
         _accountRepository.Update(account);
 
-        UpdateCredentialsEncryption(account, oldPasswordHash, ct);
+        UpdateCredentialsEncryption(account, oldPasswordHash);
         await _accountRepository.SaveChanges(ct);
     }
 
-    private void UpdateCredentialsEncryption(Account account, string oldPassword, CancellationToken ct = default)
+    private void UpdateCredentialsEncryption(Account account, string oldPassword)
     {
         foreach (var credential in account.Credentials)
         {
