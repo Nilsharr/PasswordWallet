@@ -69,19 +69,17 @@ public class AuthService : IAuthService
         account.Salt = hash.salt;
         account.IsPasswordKeptAsHash = isPasswordKeptAsHash;
         _accountRepository.Update(account);
-        await _accountRepository.SaveChanges(ct);
 
-        await UpdateCredentialsEncryption(account, oldPasswordHash, ct);
+        UpdateCredentialsEncryption(account, oldPasswordHash, ct);
+        await _accountRepository.SaveChanges(ct);
     }
 
-    private async Task UpdateCredentialsEncryption(Account account, string oldPassword, CancellationToken ct = default)
+    private void UpdateCredentialsEncryption(Account account, string oldPassword, CancellationToken ct = default)
     {
         foreach (var credential in account.Credentials)
         {
             var pass = _cryptoService.AesDecryptToString(credential.Password, oldPassword);
             credential.Password = _cryptoService.AesEncryptToHexString(pass, account.PasswordHash);
         }
-
-        await _accountRepository.SaveChanges(ct);
     }
 }
