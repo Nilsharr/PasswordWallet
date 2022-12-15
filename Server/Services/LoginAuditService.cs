@@ -61,13 +61,13 @@ public class LoginAuditService : ILoginAuditService
             {
                 loginIpAddress.AmountOfGoodLogins += loginSuccessful ? 1 : 0;
                 loginIpAddress.AmountOfBadLogins += loginSuccessful ? 0 : 1;
-                loginIpAddress.SubsequentBadLogins = loginSuccessful ? 0 : loginIpAddress.SubsequentBadLogins++;
+                loginIpAddress.SubsequentBadLogins = loginSuccessful ? 0 : ++loginIpAddress.SubsequentBadLogins;
                 loginIpAddress.AccountLogins.Add(accountLogin);
             }
 
             SetIpAddressLockout(loginIpAddress);
 
-            account.SubsequentBadLogins = loginSuccessful ? 0 : account.SubsequentBadLogins++;
+            account.SubsequentBadLogins = loginSuccessful ? 0 : ++account.SubsequentBadLogins;
             account.LockoutTime = loginSuccessful ? null : SetAccountLockout(account.SubsequentBadLogins);
         }
         // another login to nonexistent account from ip
@@ -85,7 +85,7 @@ public class LoginAuditService : ILoginAuditService
             _loginIpAddressRepository.Add(loginIpAddress);
         }
 
-        await _loginIpAddressRepository.SaveChanges(ct); //////
+        await _loginIpAddressRepository.SaveChanges(ct);
         return (loginIpAddress, account);
     }
 
