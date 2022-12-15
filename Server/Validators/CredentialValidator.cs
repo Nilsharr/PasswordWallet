@@ -3,9 +3,9 @@ using PasswordWallet.Shared.Dtos;
 
 namespace PasswordWallet.Server.Validators;
 
-public class CredentialsValidator : Validator<CredentialsDto>
+public class CredentialValidator : Validator<CredentialDto>
 {
-    public CredentialsValidator()
+    public CredentialValidator()
     {
         RuleFor(x => x.Login).MaximumLength(30).WithMessage("Login cannot have more than 30 characters");
         RuleFor(x => x.Password).NotEmpty().WithMessage("Password is required!");

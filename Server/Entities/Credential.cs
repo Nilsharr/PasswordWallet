@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace PasswordWallet.Server.Entities;
 
-public class Credentials : IEntityTypeConfiguration<Credentials>
+public class Credential : IEntityTypeConfiguration<Credential>
 {
     public long Id { get; set; }
     public string Password { get; set; } = default!;
@@ -13,7 +13,7 @@ public class Credentials : IEntityTypeConfiguration<Credentials>
     public long AccountId { get; set; }
     public Account Account { get; set; } = default!;
 
-    void IEntityTypeConfiguration<Credentials>.Configure(EntityTypeBuilder<Credentials> builder)
+    void IEntityTypeConfiguration<Credential>.Configure(EntityTypeBuilder<Credential> builder)
     {
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Password).IsRequired().HasMaxLength(512);

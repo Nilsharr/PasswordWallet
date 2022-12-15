@@ -289,7 +289,7 @@ public class AuthServiceTests
         {
             Id = accountId, Login = "test654", IsPasswordKeptAsHash = isPasswordKeptAsHash,
             PasswordHash = oldPasswordHash, Salt = "4161a2e5fd673f01ff680b1a15d8a4cf3d622682f34891fa3427ffe16a205462",
-            Credentials = new List<Credentials>
+            Credentials = new List<Credential>
             {
                 new()
                 {
@@ -308,7 +308,7 @@ public class AuthServiceTests
         {
             Id = accountId, Login = "test654", IsPasswordKeptAsHash = isPasswordKeptAsHash,
             PasswordHash = newPasswordHash, Salt = newSalt,
-            Credentials = new List<Credentials>
+            Credentials = new List<Credential>
             {
                 new() {AccountId = accountId, Login = "xyz", Password = newFirstCredentialPassword},
                 new() {AccountId = accountId, Login = "pluto", Password = newSecondCredentialPassword}
@@ -361,7 +361,7 @@ public class AuthServiceTests
         {
             Id = accountId, Login = "byget222", IsPasswordKeptAsHash = isPasswordKeptAsHash,
             PasswordHash = oldPasswordHash, Salt = "1dfabc1cf39985e5963de50cc2f5c269e3cd950810a0d2a712e6abd1c37f419f",
-            Credentials = new List<Credentials>
+            Credentials = new List<Credential>
             {
                 new()
                 {
@@ -380,7 +380,7 @@ public class AuthServiceTests
         {
             Id = accountId, Login = "byget222", IsPasswordKeptAsHash = isPasswordKeptAsHash,
             PasswordHash = newPasswordHash, Salt = newSalt,
-            Credentials = new List<Credentials>
+            Credentials = new List<Credential>
             {
                 new() {AccountId = accountId, Login = "qwerty", Password = newFirstCredentialPassword},
                 new() {AccountId = accountId, Login = "moon234", Password = newSecondCredentialPassword}

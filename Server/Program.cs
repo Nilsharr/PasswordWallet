@@ -16,11 +16,14 @@ using PasswordWallet.Server.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddScoped<ICredentialsRepository, CredentialsRepository>();
+builder.Services.AddScoped<ICredentialRepository, CredentialRepository>();
+builder.Services.AddScoped<ILoginIpAddressRepository, LoginIpAddressRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICryptoService, CryptoService>();
-builder.Services.AddScoped<ICredentialsService, CredentialsService>();
+builder.Services.AddScoped<ICredentialService, CredentialService>();
+builder.Services.AddScoped<ILoginAuditService, LoginAuditService>();
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.AddAuthenticationJWTBearer(builder.Configuration.GetSection("AppSettings")["JwtSigningKey"] ??
                                             throw new InvalidOperationException());

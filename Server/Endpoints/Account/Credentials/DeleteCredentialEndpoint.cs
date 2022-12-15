@@ -6,11 +6,11 @@ namespace PasswordWallet.Server.Endpoints.Account.Credentials;
 
 public class DeleteCredentialEndpoint : Endpoint<IdRequestDto>
 {
-    private readonly ICredentialsRepository _credentialsRepository;
+    private readonly ICredentialRepository _credentialRepository;
 
-    public DeleteCredentialEndpoint(ICredentialsRepository credentialsRepository)
+    public DeleteCredentialEndpoint(ICredentialRepository credentialRepository)
     {
-        _credentialsRepository = credentialsRepository;
+        _credentialRepository = credentialRepository;
     }
 
     public override void Configure()
@@ -28,7 +28,7 @@ public class DeleteCredentialEndpoint : Endpoint<IdRequestDto>
             return;
         }
 
-        await _credentialsRepository.Delete(req.Id, ct);
+        await _credentialRepository.Delete(req.Id, ct);
         await SendOkAsync(ct);
     }
 }

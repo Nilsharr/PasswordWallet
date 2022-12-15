@@ -5,14 +5,14 @@ using IMapper = AutoMapper.IMapper;
 
 namespace PasswordWallet.Server.Endpoints.Account.Credentials;
 
-public class GetCredentialEndpoint : Endpoint<IdRequestDto, CredentialsDto>
+public class GetCredentialEndpoint : Endpoint<IdRequestDto, CredentialDto>
 {
-    private readonly ICredentialsRepository _credentialsRepository;
+    private readonly ICredentialRepository _credentialRepository;
     private readonly IMapper _mapper;
 
-    public GetCredentialEndpoint(ICredentialsRepository credentialsRepository, IMapper mapper)
+    public GetCredentialEndpoint(ICredentialRepository credentialRepository, IMapper mapper)
     {
-        _credentialsRepository = credentialsRepository;
+        _credentialRepository = credentialRepository;
         _mapper = mapper;
     }
 
@@ -31,7 +31,8 @@ public class GetCredentialEndpoint : Endpoint<IdRequestDto, CredentialsDto>
             return;
         }
 
-        var credentials = await _credentialsRepository.Get(req.Id, ct);
-        await SendAsync(_mapper.Map<CredentialsDto>(credentials), cancellation: ct);
+        //todo not found
+        var credential = await _credentialRepository.Get(req.Id, ct);
+        await SendAsync(_mapper.Map<CredentialDto>(credential), cancellation: ct);
     }
 }

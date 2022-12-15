@@ -1,8 +1,8 @@
 ﻿namespace PasswordWallet.Shared.Dtos;
 
-public class AuthorizationResponseDto
+public class AccountSecurityDetailsDto
 {
-    public string Token { get; init; } = default!;
+    public IList<LoginIpAddressDto> LoginRequest { get; set; } = new List<LoginIpAddressDto>();
     public DateTime? LastSuccessfulLogin { get; set; }
     public DateTime? LastUnsuccessfulLogin { get; set; }
 }

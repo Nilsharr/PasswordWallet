@@ -9,6 +9,12 @@ public interface IAccountRepository : IRepository<Account>
 {
     Task<Account?> Get(string login, CancellationToken ct = default);
     Task<Account?> GetWithCredentials(long accountId, CancellationToken ct = default);
+    Task<IReadOnlyList<LoginIpAddress>> GetAccountSecurityDetails(long accountId, CancellationToken ct = default);
+
+    Task<(DateTime? lastSuccessfulLogin, DateTime? lastUnsuccessfulLogin)> GetLastValidAndInvalidLogin(long accountId,
+        CancellationToken ct = default);
+
+    Task UnblockIpAddress(long ipAddressId, CancellationToken ct = default);
     Task<bool> Exists(string login, CancellationToken ct = default);
     Task SaveChanges(CancellationToken ct = default);
 }
@@ -36,6 +42,31 @@ public class AccountRepository : IAccountRepository
     {
         return await _dbContext.Account.Where(x => x.Id == accountId).Include(x => x.Credentials)
             .SingleOrDefaultAsync(ct);
+    }
+
+    public async Task<IReadOnlyList<LoginIpAddress>> GetAccountSecurityDetails(long accountId,
+        CancellationToken ct = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<(DateTime? lastSuccessfulLogin, DateTime? lastUnsuccessfulLogin)> GetLastValidAndInvalidLogin(
+        long accountId, CancellationToken ct = default)
+    {
+        var acc = await _dbContext.Account.Where(x => x.Id == accountId).Include(x => x.AccountLogin).Select(x => new
+        {
+            CorrectLoginTime = x.AccountLogin.Where(login => login.Correct)
+                .Max(login => (DateTime?) login.Time),
+            IncorrectLoginTime = x.AccountLogin.Where(login => !login.Correct)
+                .Max(login => (DateTime?) login.Time)
+        }).SingleOrDefaultAsync(ct);
+        return (acc?.CorrectLoginTime, acc?.IncorrectLoginTime);
+    }
+
+    public async Task UnblockIpAddress(long ipAddressId, CancellationToken ct = default)
+    {
+        await _dbContext.LoginIpAddress.Where(x => x.Id == ipAddressId)
+            .UpdateAsync(x => new LoginIpAddress {PermanentLock = false}, cancellationToken: ct);
     }
 
     public Account Add(Account account)

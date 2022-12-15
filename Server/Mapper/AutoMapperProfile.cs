@@ -10,7 +10,8 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<Account, AccountDto>();
         CreateMap<AccountDto, Account>();
-        CreateMap<Credentials, CredentialsDto>();
-        CreateMap<CredentialsDto, Credentials>();
+        CreateMap<Credential, CredentialDto>();
+        CreateMap<CredentialDto, Credential>();
+        CreateMap<LoginIpAddress, LoginIpAddressDto>();
     }
 }

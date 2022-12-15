@@ -7,14 +7,14 @@ using IMapper = AutoMapper.IMapper;
 namespace PasswordWallet.Server.Endpoints.Account.Credentials;
 
 // TODO: add pagination
-public class GetCredentialsEndpoint : Endpoint<EmptyRequest, IList<CredentialsDto>>
+public class GetCredentialsEndpoint : Endpoint<EmptyRequest, IList<CredentialDto>>
 {
-    private readonly ICredentialsRepository _credentialsRepository;
+    private readonly ICredentialRepository _credentialRepository;
     private readonly IMapper _mapper;
 
-    public GetCredentialsEndpoint(ICredentialsRepository credentialsRepository, IMapper mapper)
+    public GetCredentialsEndpoint(ICredentialRepository credentialRepository, IMapper mapper)
     {
-        _credentialsRepository = credentialsRepository;
+        _credentialRepository = credentialRepository;
         _mapper = mapper;
     }
 
@@ -34,7 +34,7 @@ public class GetCredentialsEndpoint : Endpoint<EmptyRequest, IList<CredentialsDt
             return;
         }
 
-        var credentials = await _credentialsRepository.GetAll(accountId.Value, ct);
-        await SendAsync(_mapper.Map<IList<CredentialsDto>>(credentials), cancellation: ct);
+        var credentials = await _credentialRepository.GetAll(accountId.Value, ct);
+        await SendAsync(_mapper.Map<IList<CredentialDto>>(credentials), cancellation: ct);
     }
 }

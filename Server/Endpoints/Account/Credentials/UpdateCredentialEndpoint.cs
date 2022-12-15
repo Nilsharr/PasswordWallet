@@ -5,14 +5,14 @@ using IMapper = AutoMapper.IMapper;
 
 namespace PasswordWallet.Server.Endpoints.Account.Credentials;
 
-public class UpdateCredentialEndpoint : Endpoint<CredentialsDto, CredentialsDto>
+public class UpdateCredentialEndpoint : Endpoint<CredentialDto, CredentialDto>
 {
-    private readonly ICredentialsService _credentialsService;
+    private readonly ICredentialService _credentialService;
     private readonly IMapper _mapper;
 
-    public UpdateCredentialEndpoint(ICredentialsService credentialsService, IMapper mapper)
+    public UpdateCredentialEndpoint(ICredentialService credentialService, IMapper mapper)
     {
-        _credentialsService = credentialsService;
+        _credentialService = credentialService;
         _mapper = mapper;
     }
 
@@ -23,7 +23,7 @@ public class UpdateCredentialEndpoint : Endpoint<CredentialsDto, CredentialsDto>
         Description(x => x.WithName("UpdateCredential"));
     }
 
-    public override async Task HandleAsync(CredentialsDto req, CancellationToken ct)
+    public override async Task HandleAsync(CredentialDto req, CancellationToken ct)
     {
         if (req.AccountId is null)
         {
@@ -31,8 +31,8 @@ public class UpdateCredentialEndpoint : Endpoint<CredentialsDto, CredentialsDto>
             return;
         }
 
-        var credential = await _credentialsService.EncryptAndUpdateCredential(req.AccountId.Value,
-            _mapper.Map<Entities.Credentials>(req), ct);
-        await SendAsync(_mapper.Map<CredentialsDto>(credential), cancellation: ct);
+        var credential = await _credentialService.EncryptAndUpdateCredential(req.AccountId.Value,
+            _mapper.Map<Entities.Credential>(req), ct);
+        await SendAsync(_mapper.Map<CredentialDto>(credential), cancellation: ct);
     }
 }

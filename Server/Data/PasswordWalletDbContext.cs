@@ -16,5 +16,7 @@ public class PasswordWalletDbContext : DbContext
     }
 
     public DbSet<Account> Account { get; set; } = default!;
-    public DbSet<Credentials> Credentials { get; set; } = default!;
+    public DbSet<Credential> Credential { get; set; } = default!;
+    public DbSet<AccountLogin> AccountLogin { get; set; } = default!;
+    public DbSet<LoginIpAddress> LoginIpAddress { get; set; } = default!;
 }

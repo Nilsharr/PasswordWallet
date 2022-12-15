@@ -5,14 +5,14 @@ using IMapper = AutoMapper.IMapper;
 
 namespace PasswordWallet.Server.Endpoints.Account.Credentials;
 
-public class AddCredentialEndpoint : Endpoint<CredentialsDto, CredentialsDto>
+public class AddCredentialEndpoint : Endpoint<CredentialDto, CredentialDto>
 {
-    private readonly ICredentialsService _credentialsService;
+    private readonly ICredentialService _credentialService;
     private readonly IMapper _mapper;
 
-    public AddCredentialEndpoint(ICredentialsService credentialsService, IMapper mapper)
+    public AddCredentialEndpoint(ICredentialService credentialService, IMapper mapper)
     {
-        _credentialsService = credentialsService;
+        _credentialService = credentialService;
         _mapper = mapper;
     }
 
@@ -20,10 +20,10 @@ public class AddCredentialEndpoint : Endpoint<CredentialsDto, CredentialsDto>
     {
         Post("/api/account/credentials");
         Claims(Constants.AccountIdClaim);
-        Description(x => x.WithName("AddCredential").Produces<CredentialsDto>(201));
+        Description(x => x.WithName("AddCredential").Produces<CredentialDto>(201));
     }
 
-    public override async Task HandleAsync(CredentialsDto req, CancellationToken ct)
+    public override async Task HandleAsync(CredentialDto req, CancellationToken ct)
     {
         if (req.AccountId is null)
         {
@@ -32,9 +32,9 @@ public class AddCredentialEndpoint : Endpoint<CredentialsDto, CredentialsDto>
         }
 
         var credential =
-            await _credentialsService.EncryptAndSaveCredential(req.AccountId.Value,
-                _mapper.Map<Entities.Credentials>(req), ct);
-        await SendCreatedAtAsync("GetCredential", new {credential.Id}, _mapper.Map<CredentialsDto>(credential),
+            await _credentialService.EncryptAndSaveCredential(req.AccountId.Value,
+                _mapper.Map<Entities.Credential>(req), ct);
+        await SendCreatedAtAsync("GetCredential", new {credential.Id}, _mapper.Map<CredentialDto>(credential),
             cancellation: ct);
     }
 }

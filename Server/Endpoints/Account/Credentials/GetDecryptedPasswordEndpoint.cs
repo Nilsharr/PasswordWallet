@@ -6,11 +6,11 @@ namespace PasswordWallet.Server.Endpoints.Account.Credentials;
 
 public class GetDecryptedPasswordEndpoint : Endpoint<IdRequestDto, string>
 {
-    private readonly ICredentialsService _credentialsService;
+    private readonly ICredentialService _credentialService;
 
-    public GetDecryptedPasswordEndpoint(ICredentialsService credentialsService)
+    public GetDecryptedPasswordEndpoint(ICredentialService credentialService)
     {
-        _credentialsService = credentialsService;
+        _credentialService = credentialService;
     }
 
     public override void Configure()
@@ -28,7 +28,7 @@ public class GetDecryptedPasswordEndpoint : Endpoint<IdRequestDto, string>
             return;
         }
 
-        var password = await _credentialsService.DecryptPassword(req.Id);
+        var password = await _credentialService.DecryptPassword(req.Id);
         await SendAsync(password, cancellation: ct);
     }
 }

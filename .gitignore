@@ -357,6 +357,3 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-
-# Custom
-Server/Data/Migrations/

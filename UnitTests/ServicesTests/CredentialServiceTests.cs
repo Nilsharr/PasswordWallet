@@ -6,7 +6,7 @@ using PasswordWallet.Server.Services;
 
 namespace PasswordWallet.UnitTests.ServicesTests;
 
-public class CredentialsServiceTests
+public class CredentialServiceTests
 {
     [Fact]
     public async Task EncryptAndSaveCredential_ValidCredential_ShouldSaveAndEncryptPassword()
@@ -25,14 +25,14 @@ public class CredentialsServiceTests
             PasswordHash = accountPassword
         };
 
-        var credential = new Credentials
+        var credential = new Credential
         {
             Login = "login123",
             Password = credentialPassword,
             AccountId = accountId
         };
 
-        var expectedCredential = new Credentials
+        var expectedCredential = new Credential
         {
             Id = 1,
             Login = "login123",
@@ -43,24 +43,24 @@ public class CredentialsServiceTests
         var accountRepository = new Mock<IAccountRepository>();
         accountRepository.Setup(x => x.Get(accountId, default)).ReturnsAsync(account);
 
-        var credentialsRepository = new Mock<ICredentialsRepository>();
-        credentialsRepository.Setup(x => x.Add(credential)).Callback(() => credential.Id = 1);
-        credentialsRepository.Setup(x => x.SaveChanges(default));
+        var credentialRepository = new Mock<ICredentialRepository>();
+        credentialRepository.Setup(x => x.Add(credential)).Callback(() => credential.Id = 1);
+        credentialRepository.Setup(x => x.SaveChanges(default));
 
         var cryptoService = new Mock<ICryptoService>();
         cryptoService.Setup(x => x.AesEncryptToHexString(credentialPassword, accountPassword))
             .Returns(encryptedCredentialPassword);
 
-        var credentialsService =
-            new CredentialsService(accountRepository.Object, credentialsRepository.Object, cryptoService.Object);
+        var credentialService =
+            new CredentialService(accountRepository.Object, credentialRepository.Object, cryptoService.Object);
 
         // Act
-        var returnedCredential = await credentialsService.EncryptAndSaveCredential(accountId, credential);
+        var returnedCredential = await credentialService.EncryptAndSaveCredential(accountId, credential);
 
         // Assert
         cryptoService.Verify(x => x.AesEncryptToHexString(credentialPassword, accountPassword), Times.Once);
-        credentialsRepository.Verify(x => x.Add(credential), Times.Once);
-        credentialsRepository.Verify(x => x.SaveChanges(default), Times.Once);
+        credentialRepository.Verify(x => x.Add(credential), Times.Once);
+        credentialRepository.Verify(x => x.SaveChanges(default), Times.Once);
 
         returnedCredential.Should().BeEquivalentTo(expectedCredential);
     }
@@ -84,7 +84,7 @@ public class CredentialsServiceTests
             PasswordHash = accountPassword
         };
 
-        var credential = new Credentials
+        var credential = new Credential
         {
             Id = 6,
             Login = "atyr343",
@@ -92,7 +92,7 @@ public class CredentialsServiceTests
             AccountId = accountId
         };
 
-        var expectedCredential = new Credentials
+        var expectedCredential = new Credential
         {
             Id = 6,
             Login = "atyr343",
@@ -103,25 +103,25 @@ public class CredentialsServiceTests
         var accountRepository = new Mock<IAccountRepository>();
         accountRepository.Setup(x => x.Get(accountId, default)).ReturnsAsync(account);
 
-        var credentialsRepository = new Mock<ICredentialsRepository>();
-        credentialsRepository.Setup(x => x.GetPassword(credential.Id, default)).ReturnsAsync(currentCredentialPassword);
-        credentialsRepository.Setup(x => x.Update(credential)).Verifiable();
-        credentialsRepository.Setup(x => x.SaveChanges(default));
+        var credentialRepository = new Mock<ICredentialRepository>();
+        credentialRepository.Setup(x => x.GetPassword(credential.Id, default)).ReturnsAsync(currentCredentialPassword);
+        credentialRepository.Setup(x => x.Update(credential)).Verifiable();
+        credentialRepository.Setup(x => x.SaveChanges(default));
 
         var cryptoService = new Mock<ICryptoService>();
         cryptoService.Setup(x => x.AesEncryptToHexString(newCredentialPassword, accountPassword))
             .Returns(encryptedNewCredentialPassword);
 
-        var credentialsService =
-            new CredentialsService(accountRepository.Object, credentialsRepository.Object, cryptoService.Object);
+        var credentialService =
+            new CredentialService(accountRepository.Object, credentialRepository.Object, cryptoService.Object);
 
         // Act
-        var returnedCredential = await credentialsService.EncryptAndUpdateCredential(accountId, credential);
+        var returnedCredential = await credentialService.EncryptAndUpdateCredential(accountId, credential);
 
         // Assert
         cryptoService.Verify(x => x.AesEncryptToHexString(newCredentialPassword, accountPassword), Times.Once);
-        credentialsRepository.Verify(x => x.Update(credential), Times.Once);
-        credentialsRepository.Verify(x => x.SaveChanges(default), Times.Once);
+        credentialRepository.Verify(x => x.Update(credential), Times.Once);
+        credentialRepository.Verify(x => x.SaveChanges(default), Times.Once);
 
         returnedCredential.Should().BeEquivalentTo(expectedCredential);
     }
@@ -133,7 +133,7 @@ public class CredentialsServiceTests
         const long accountId = 4;
         const string currentCredentialPassword = "bc1fb06c80bd76d9e7d9b39ba600e355b5d974b0ebef3d0ec814388de10cfc2e";
 
-        var credential = new Credentials
+        var credential = new Credential
         {
             Id = 8,
             Login = "bygom333",
@@ -144,21 +144,21 @@ public class CredentialsServiceTests
         var accountRepository = new Mock<IAccountRepository>();
         var cryptoService = new Mock<ICryptoService>();
 
-        var credentialsRepository = new Mock<ICredentialsRepository>();
-        credentialsRepository.Setup(x => x.GetPassword(credential.Id, default)).ReturnsAsync(currentCredentialPassword);
-        credentialsRepository.Setup(x => x.Update(credential)).Verifiable();
-        credentialsRepository.Setup(x => x.SaveChanges(default));
+        var credentialRepository = new Mock<ICredentialRepository>();
+        credentialRepository.Setup(x => x.GetPassword(credential.Id, default)).ReturnsAsync(currentCredentialPassword);
+        credentialRepository.Setup(x => x.Update(credential)).Verifiable();
+        credentialRepository.Setup(x => x.SaveChanges(default));
 
-        var credentialsService =
-            new CredentialsService(accountRepository.Object, credentialsRepository.Object, cryptoService.Object);
+        var credentialService =
+            new CredentialService(accountRepository.Object, credentialRepository.Object, cryptoService.Object);
 
         // Act
-        var returnedCredential = await credentialsService.EncryptAndUpdateCredential(accountId, credential);
+        var returnedCredential = await credentialService.EncryptAndUpdateCredential(accountId, credential);
 
         // Assert
         cryptoService.Verify(x => x.AesEncryptToHexString(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
-        credentialsRepository.Verify(x => x.Update(credential), Times.Once);
-        credentialsRepository.Verify(x => x.SaveChanges(default), Times.Once);
+        credentialRepository.Verify(x => x.Update(credential), Times.Once);
+        credentialRepository.Verify(x => x.SaveChanges(default), Times.Once);
 
         returnedCredential.Should().BeEquivalentTo(credential);
     }

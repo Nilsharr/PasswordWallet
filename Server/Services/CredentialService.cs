@@ -3,59 +3,59 @@ using PasswordWallet.Server.Repositories;
 
 namespace PasswordWallet.Server.Services;
 
-public interface ICredentialsService
+public interface ICredentialService
 {
     Task<string> DecryptPassword(long credentialId);
-    Task<Credentials> EncryptAndSaveCredential(long accountId, Credentials credential, CancellationToken ct = default);
+    Task<Credential> EncryptAndSaveCredential(long accountId, Credential credential, CancellationToken ct = default);
 
-    Task<Credentials> EncryptAndUpdateCredential(long accountId, Credentials credential,
+    Task<Credential> EncryptAndUpdateCredential(long accountId, Credential credential,
         CancellationToken ct = default);
 }
 
-public class CredentialsService : ICredentialsService
+public class CredentialService : ICredentialService
 {
     private readonly IAccountRepository _accountRepository;
-    private readonly ICredentialsRepository _credentialsRepository;
+    private readonly ICredentialRepository _credentialRepository;
     private readonly ICryptoService _cryptoService;
 
-    public CredentialsService(IAccountRepository accountRepository, ICredentialsRepository credentialsRepository,
+    public CredentialService(IAccountRepository accountRepository, ICredentialRepository credentialRepository,
         ICryptoService cryptoService)
     {
         _accountRepository = accountRepository;
-        _credentialsRepository = credentialsRepository;
+        _credentialRepository = credentialRepository;
         _cryptoService = cryptoService;
     }
 
     public async Task<string> DecryptPassword(long credentialId)
     {
-        var credential = await _credentialsRepository.GetWithAccount(credentialId);
+        var credential = await _credentialRepository.GetWithAccount(credentialId);
         return _cryptoService.AesDecryptToString(credential!.Password, credential.Account.PasswordHash);
     }
 
-    public async Task<Credentials> EncryptAndSaveCredential(long accountId, Credentials credential,
+    public async Task<Credential> EncryptAndSaveCredential(long accountId, Credential credential,
         CancellationToken ct = default)
     {
         credential = await EncryptCredential(accountId, credential, ct);
-        _credentialsRepository.Add(credential);
-        await _credentialsRepository.SaveChanges(ct);
+        _credentialRepository.Add(credential);
+        await _credentialRepository.SaveChanges(ct);
         return credential;
     }
 
-    public async Task<Credentials> EncryptAndUpdateCredential(long accountId, Credentials credential,
+    public async Task<Credential> EncryptAndUpdateCredential(long accountId, Credential credential,
         CancellationToken ct = default)
     {
-        var currentPassword = await _credentialsRepository.GetPassword(credential.Id, ct);
+        var currentPassword = await _credentialRepository.GetPassword(credential.Id, ct);
         if (credential.Password != currentPassword)
         {
             credential = await EncryptCredential(accountId, credential, ct);
         }
 
-        _credentialsRepository.Update(credential);
-        await _credentialsRepository.SaveChanges(ct);
+        _credentialRepository.Update(credential);
+        await _credentialRepository.SaveChanges(ct);
         return credential;
     }
 
-    private async Task<Credentials> EncryptCredential(long accountId, Credentials credential,
+    private async Task<Credential> EncryptCredential(long accountId, Credential credential,
         CancellationToken ct = default)
     {
         var account = await _accountRepository.Get(accountId, ct);
