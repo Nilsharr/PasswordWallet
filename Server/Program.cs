@@ -52,8 +52,7 @@ if (builder.Environment.IsDevelopment())
 
 var app = builder.Build();
 
-//app.UseHttpsRedirection();
-
+app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 app.MapFallbackToFile("index.html");
@@ -65,6 +64,11 @@ app.UseFastEndpoints(c =>
     c.Endpoints.ShortNames = true;
     c.Serializer.Options.PropertyNamingPolicy = null;
 });
+
+// run migrations on startup
+using var scope = app.Services.CreateScope();
+var db = scope.ServiceProvider.GetRequiredService<PasswordWalletDbContext>();
+db.Database.Migrate();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

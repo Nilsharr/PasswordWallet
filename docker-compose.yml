@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    environment:
+     - ConnectionStrings:PasswordWalletConnection=Server=postgres-db;Port=5432;Database=PasswordWallet;User Id=postgres;Password=root;
+    depends_on:
+      - postgres-db
+    ports:
+      - "8000:80"
+  
+  postgres-db:
+    image: postgres:15.1-alpine
+    environment:
+      POSTGRES_DB: PasswordWallet
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    restart: unless-stopped
+    expose:
+      - "5432"
