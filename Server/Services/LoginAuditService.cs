@@ -33,9 +33,7 @@ public class LoginAuditService : ILoginAuditService
     }
 
     public async Task<(LoginIpAddress loginIpAddress, Account? account)> RegisterLoginAttempt(IPAddress ipAddress,
-        string login,
-        bool loginSuccessful,
-        CancellationToken ct = default)
+        string login, bool loginSuccessful, CancellationToken ct = default)
     {
         var account = await _accountRepository.Get(login, ct);
         var loginIpAddress = await _loginIpAddressRepository.Get(ipAddress, ct);
@@ -102,9 +100,23 @@ public class LoginAuditService : ILoginAuditService
         return account?.LockoutTime;
     }
 
+    private DateTime? SetAccountLockout(int incorrectLogins) => incorrectLogins switch
+    {
+        >= 0 and < (int) IncorrectAccountLoginsThreshold.Low => null,
+        >= (int) IncorrectAccountLoginsThreshold.Low and < (int) IncorrectAccountLoginsThreshold.Medium =>
+            _dateTimeProvider.UtcNow
+                .AddSeconds(IncorrectAccountLoginsThreshold.Low.GetLockoutTime()),
+        >= (int) IncorrectAccountLoginsThreshold.Medium and < (int) IncorrectAccountLoginsThreshold.High =>
+            _dateTimeProvider.UtcNow
+                .AddSeconds(IncorrectAccountLoginsThreshold.Medium.GetLockoutTime()),
+        >= (int) IncorrectAccountLoginsThreshold.High => _dateTimeProvider.UtcNow.AddSeconds(
+            IncorrectAccountLoginsThreshold.High.GetLockoutTime()),
+        _ => throw new ArgumentException("Number cannot be negative", nameof(incorrectLogins))
+    };
+
     private void SetIpAddressLockout(LoginIpAddress loginIpAddress)
     {
-        if (loginIpAddress.SubsequentBadLogins >= (int) IncorrectLoginsThreshold.High)
+        if (loginIpAddress.SubsequentBadLogins >= (int) IncorrectIpAddressLoginsThreshold.High)
         {
             loginIpAddress.PermanentLock = true;
         }
@@ -114,22 +126,18 @@ public class LoginAuditService : ILoginAuditService
         }
     }
 
-    private DateTime? SetAccountLockout(int incorrectLogins) => incorrectLogins switch
-    {
-        >= 0 and < (int) IncorrectLoginsThreshold.Low => null,
-        (int) IncorrectLoginsThreshold.Low => _dateTimeProvider.UtcNow.AddSeconds(5),
-        (int) IncorrectLoginsThreshold.Medium => _dateTimeProvider.UtcNow.AddSeconds(10),
-        >= (int) IncorrectLoginsThreshold.High => _dateTimeProvider.UtcNow.AddMinutes(2),
-        _ => throw new ArgumentException("Number cannot be negative", nameof(incorrectLogins))
-    };
-
     private DateTime? SetIpLockoutTime(int incorrectLogins) => incorrectLogins switch
     {
-        >= 0 and < (int) IncorrectLoginsThreshold.Low => null,
-        (int) IncorrectLoginsThreshold.Low => _dateTimeProvider.UtcNow.AddSeconds(5),
-        (int) IncorrectLoginsThreshold.Medium => _dateTimeProvider.UtcNow.AddSeconds(10),
-        >= (int) IncorrectLoginsThreshold.High => throw new ArgumentException(
-            "Cannot set time lockout when incorrect subsequent logins exceed " + (int) IncorrectLoginsThreshold.High,
+        >= 0 and < (int) IncorrectIpAddressLoginsThreshold.Low => null,
+        >= (int) IncorrectIpAddressLoginsThreshold.Low and < (int) IncorrectIpAddressLoginsThreshold.Medium =>
+            _dateTimeProvider.UtcNow
+                .AddSeconds(IncorrectIpAddressLoginsThreshold.Low.GetLockoutTime()),
+        >= (int) IncorrectIpAddressLoginsThreshold.Medium and < (int) IncorrectIpAddressLoginsThreshold.High =>
+            _dateTimeProvider.UtcNow
+                .AddSeconds((int) IncorrectIpAddressLoginsThreshold.Medium.GetLockoutTime()),
+        >= (int) IncorrectIpAddressLoginsThreshold.High => throw new ArgumentException(
+            "Cannot set time lockout when incorrect subsequent logins exceed " +
+            (int) IncorrectIpAddressLoginsThreshold.High,
             nameof(incorrectLogins)),
         _ => throw new ArgumentException("Number cannot be negative", nameof(incorrectLogins))
     };
