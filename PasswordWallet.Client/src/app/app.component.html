@@ -1,0 +1,13 @@
+<app-nav-bar [title]="title" [sideNav]="sidenav">
+  <div class="invisible md:visible">
+    <app-nav-links></app-nav-links>
+  </div>
+</app-nav-bar>
+<mat-sidenav-container class="h-[calc(100%-72px)] sm:h-[calc(100%-64px)]">
+  <mat-sidenav class="!w-48" #sidenav mode="over" opened="false">
+    <app-nav-links [isInsideSideNav]="true"></app-nav-links>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

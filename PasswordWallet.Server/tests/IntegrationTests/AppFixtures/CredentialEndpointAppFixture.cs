@@ -1,0 +1,3 @@
+namespace IntegrationTests.AppFixtures;
+
+public class CredentialEndpointAppFixture : PasswordWalletAppFixture;

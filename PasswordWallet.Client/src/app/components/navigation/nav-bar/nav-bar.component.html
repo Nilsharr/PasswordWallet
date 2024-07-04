@@ -1,0 +1,19 @@
+<mat-toolbar class="sticky top-0 z-10">
+  <button
+    mat-icon-button
+    class="md:invisible"
+    (click)="sideNav.toggle()"
+    aria-label="Show menu"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <div>
+    <button mat-button routerLink="/" aria-label="Home">
+      <mat-icon class="pb-[1.1rem] pr-[0.3rem] !text-2xl">home</mat-icon>
+      <span class="text-xl">{{ title }}</span>
+    </button>
+  </div>
+  <span class="flex-auto"></span>
+
+  <ng-content></ng-content>
+</mat-toolbar>

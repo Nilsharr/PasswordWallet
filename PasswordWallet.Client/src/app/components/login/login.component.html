@@ -1,0 +1,79 @@
+<div class="h-full w-full flex items-center justify-center">
+  <mat-card
+    class="w-[420px] h-2/3 items-center justify-center"
+    appearance="outlined"
+  >
+    <mat-card-title class="!text-4xl pb-7"> Log In </mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="flex flex-col items-center">
+          <mat-form-field class="form-item mb-3">
+            <mat-label>Username</mat-label>
+            <input
+              matInput
+              formControlName="username"
+              type="text"
+              autocomplete="username"
+              required
+            />
+            @if(username?.hasError('required')){
+            <mat-error>
+              <mat-icon>error</mat-icon>
+              <span class="aligned-with-icon">Username is required.</span>
+            </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field class="form-item">
+            <mat-label>Master password</mat-label>
+            <input
+              matInput
+              formControlName="password"
+              [type]="getPasswordInputType()"
+              autocomplete="current-password"
+              required
+            />
+            @if(password?.hasError('required')){
+            <mat-error>
+              <mat-icon>error</mat-icon>
+              <span class="aligned-with-icon">Password is required.</span>
+            </mat-error>
+            } @if(password?.hasError('invalidLogin')){
+            <mat-error>
+              <mat-icon>error</mat-icon>
+              <span class="aligned-with-icon">Wrong username or password.</span>
+            </mat-error>
+            } @if(password?.hasError('tooManyIncorrectAttempts')){
+            <mat-error>
+              <mat-icon>error</mat-icon>
+              <span class="aligned-with-icon"
+                >Too many incorrect attempts. Try again in 5 minutes.</span
+              >
+            </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-checkbox
+            class="mr-auto tertiary-checkbox"
+            formControlName="showPassword"
+            >Show password</mat-checkbox
+          >
+
+          <button
+            class="mt-2 form-item !h-12"
+            mat-flat-button
+            [loading]="isLoading"
+            type="submit"
+          >
+            Continue
+          </button>
+
+          <p>
+            <span>Don't have an account? </span
+            ><a routerLink="/register">Register</a>
+          </p>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

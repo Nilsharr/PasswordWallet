@@ -1,0 +1,65 @@
+<nav class="flex items-start" [ngClass]="{ 'flex-col m-5': isInsideSideNav }">
+  @if((isLoggedIn$ | async)) { @if(isInsideSideNav){ @for(item of navItems;
+  track item.route){
+  <a
+    mat-button
+    class="w-full !justify-start mb-2"
+    [routerLink]="item.route"
+    routerLinkActive="item-selected"
+  >
+    <mat-icon>{{ item.icon }}</mat-icon>
+    <span>{{ item.name }}</span>
+  </a>
+  }
+  <button class="w-full !justify-start" mat-button (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
+  </button>
+
+  } @else {
+  <button
+    mat-icon-button
+    class="primary-icon"
+    [matMenuTriggerFor]="userMenu"
+    aria-label="Account"
+    matTooltip="Account"
+  >
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  } } @if(isInsideSideNav){
+  <mat-slide-toggle
+    mat-button
+    class="mt-3 ml-3"
+    labelPosition="before"
+    hideIcon
+    [checked]="isDarkMode"
+    (click)="toggleTheme($event)"
+    ><span class="font-medium primary-text-color"
+      >Dark Mode</span
+    ></mat-slide-toggle
+  >
+  } @else {
+  <button
+    mat-icon-button
+    class="primary-icon"
+    (click)="toggleTheme($event)"
+    [matTooltip]="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'"
+  >
+    <mat-icon>{{ isDarkMode ? "light_mode" : "dark_mode" }}</mat-icon>
+  </button>
+  }
+</nav>
+
+<mat-menu #userMenu="matMenu" xPosition="before">
+  @for(item of navItems; track item.route){
+  <a mat-menu-item [routerLink]="item.route">
+    <mat-icon>{{ item.icon }}</mat-icon>
+    <span>{{ item.name }}</span>
+  </a>
+  }
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
+  </button>
+</mat-menu>

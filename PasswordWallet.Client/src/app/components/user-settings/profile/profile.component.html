@@ -1,0 +1,10 @@
+<h3>Profile</h3>
+<p>Name: {{ user.username }}</p>
+<p>
+  Last valid login date:
+  {{ user.lastValidLoginDate | date : "EEEE, dd-MMMM-yyyy, HH:mm:ss" }}
+</p>
+<p>
+  Last invalid login date:
+  {{ user.lastInvalidLoginDate | date : "EEEE, dd-MMMM-yyyy, HH:mm:ss" }}
+</p>

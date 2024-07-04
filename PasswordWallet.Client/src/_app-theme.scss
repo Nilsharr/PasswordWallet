@@ -1,0 +1,74 @@
+@use "@angular/material" as mat;
+
+@mixin apptheme($theme) {
+  a {
+    text-decoration: none;
+    color: mat.get-theme-color($theme, primary);
+  }
+
+  @include toolbar-theme($theme);
+  @include item-selected($theme);
+  @include primary-text-color($theme);
+  @include tertiary-button($theme);
+  @include warn-button($theme);
+  @include primary-icon($theme);
+  @include tertiary-icon($theme);
+  @include warn-icon($theme);
+  @include tertiary-checkbox($theme);
+}
+
+@mixin toolbar-theme($theme) {
+  app-nav-bar {
+    mat-toolbar {
+      background: mat.get-theme-color($theme, primary-container);
+    }
+  }
+}
+
+@mixin item-selected($theme) {
+  .item-selected {
+    background: mat.get-theme-color($theme, secondary-container);
+  }
+}
+
+@mixin primary-text-color($theme) {
+  .primary-text-color {
+    color: mat.get-theme-color($theme, primary);
+  }
+}
+
+@mixin tertiary-button($theme) {
+  .tertiary-button {
+    @include mat.button-color($theme, $color-variant: tertiary);
+  }
+}
+
+@mixin warn-button($theme) {
+  .warn-button {
+    @include mat.button-color($theme, $color-variant: error);
+  }
+}
+
+@mixin primary-icon($theme) {
+  .primary-icon {
+    @include mat.icon-color($theme, $color-variant: primary);
+  }
+}
+
+@mixin tertiary-icon($theme) {
+  .tertiary-icon {
+    @include mat.icon-color($theme, $color-variant: tertiary);
+  }
+}
+
+@mixin warn-icon($theme) {
+  .warn-icon {
+    @include mat.icon-color($theme, $color-variant: error);
+  }
+}
+
+@mixin tertiary-checkbox($theme) {
+  .tertiary-checkbox {
+    @include mat.checkbox-color($theme, $color-variant: tertiary);
+  }
+}

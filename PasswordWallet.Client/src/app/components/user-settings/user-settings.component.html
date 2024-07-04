@@ -1,0 +1,21 @@
+<div class="h-full flex flex-row">
+  <div class="w-14 md:w-48 mt-10 mx-5">
+    <mat-nav-list role="navigation" aria-label="User settings">
+      @for(item of navItems; track item.route){
+      <a
+        class="mb-2"
+        mat-list-item
+        [routerLink]="item.route"
+        routerLinkActive="item-selected"
+      >
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span>{{ item.name }}</span>
+      </a>
+      }
+    </mat-nav-list>
+  </div>
+
+  <div class="w-full mt-10 ml-10">
+    <router-outlet></router-outlet>
+  </div>
+</div>

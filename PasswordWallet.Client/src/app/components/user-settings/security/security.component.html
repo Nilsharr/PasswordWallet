@@ -1,0 +1,43 @@
+<h3>Change password</h3>
+<form [formGroup]="changePasswordForm" (ngSubmit)="onSubmit()">
+  <div class="flex flex-col">
+    <mat-form-field class="form-item mb-3">
+      <mat-label>Current password</mat-label>
+      <input
+        matInput
+        formControlName="currentPassword"
+        [type]="getPasswordInputType()"
+        required
+      />
+      @if(currentPassword?.hasError('required')){
+      <mat-error>
+        <mat-icon>error</mat-icon>
+        <span class="aligned-with-icon">Current password is required.</span>
+      </mat-error>
+      } @if(currentPassword?.hasError('invalidCurrentPassword')){
+      <mat-error>
+        <mat-icon>error</mat-icon>
+        <span class="aligned-with-icon"
+          >Entered current password is invalid.</span
+        >
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <app-master-password-form
+      passwordLabel="New password"
+      confirmPasswordLabel="Confirm new password"
+    ></app-master-password-form>
+  </div>
+
+  <div>
+    <button
+      class="mt-2 tertiary-button"
+      mat-flat-button
+      [loading]="isLoading"
+      type="submit"
+    >
+      Change
+    </button>
+  </div>
+</form>

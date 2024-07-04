@@ -1,0 +1,80 @@
+<div class="h-full flex flex-col">
+  <h3>Login history</h3>
+  <div class="flex justify-end mr-32">
+    <mat-form-field>
+      <mat-label>Login status</mat-label>
+      <mat-select (valueChange)="onLoginStatusChange($event)">
+        <mat-option>All</mat-option>
+        <mat-option value="correct">Correct</mat-option>
+        <mat-option value="incorrect">Incorrect</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  @if(isLoading){
+  <div class="h-full flex items-center justify-center">
+    <mat-spinner></mat-spinner>
+  </div>
+  } @else{
+  <table
+    mat-table
+    [dataSource]="loginHistories"
+    matSort
+    (matSortChange)="onSortChange($event)"
+    matSortActive="date"
+    [matSortDirection]="sortDir"
+  >
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <span>{{ i + 1 }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        [disableClear]="true"
+        sortActionDescription="Sort by date"
+      >
+        Date
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span>{{ element.date | date : "EEEE, dd-MMMM-yyyy, HH:mm:ss" }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ipAddress">
+      <th mat-header-cell *matHeaderCellDef>Ip address</th>
+      <td mat-cell *matCellDef="let element">
+        <span>{{ element.ipAddress }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="correct">
+      <th mat-header-cell *matHeaderCellDef>Correct</th>
+      <td mat-cell *matCellDef="let element">
+        <span>{{ element.correct }}</span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <span class="grow"></span>
+  <div class="flex justify-center">
+    <mat-paginator
+      showFirstLastButtons
+      [pageIndex]="currentPage"
+      [length]="totalCount"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[25, 50, 100]"
+      (page)="onPageChange($event)"
+      aria-label="Select page of login history"
+    >
+    </mat-paginator>
+  </div>
+  }
+</div>

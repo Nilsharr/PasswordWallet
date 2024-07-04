@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>{{ data ? "Rename folder" : "Add folder" }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="addEditFolderForm">
+    <mat-form-field class="form-item mt-1 mb-3">
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        formControlName="name"
+        type="text"
+        appFocusAndSelect
+        required
+      />
+      @if(name?.hasError('required')){
+      <mat-error>
+        <mat-icon>error</mat-icon>
+        <span class="aligned-with-icon">Folder name is required.</span>
+      </mat-error>
+      } @if(name?.hasError('maxlength')){
+      <mat-error>
+        <mat-icon>error</mat-icon>
+        <span class="aligned-with-icon"
+          >Folder name cannot have more than 64 characters.</span
+        >
+      </mat-error>
+      }
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button type="submit" (click)="onSubmit()">Save</button>
+  <button mat-stroked-button [mat-dialog-close]="null">Cancel</button>
+</mat-dialog-actions>
