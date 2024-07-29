@@ -17,9 +17,10 @@ The frontend is developed with Angular. The application uses PostgreSQL as the d
 
 1. Make sure you have [Docker](https://www.docker.com/) installed.
 1. Clone the repository.
+1. Go to PasswordWallet.Client/cert directory and run cert.sh script to generate self signed certificate for frontend. (Requires openssl and git bash on Windows).
+1. Trust the self signed ca.crt certificate.
 1. Generate self signed certificate for ASP.NET Core image https://learn.microsoft.com/en-us/aspnet/core/security/docker-compose-https.
 1. Set the `ASPNETCORE_Kestrel__Certificates__Default__Password` variable in docker-compose.yml to the password used for the certificate.
-1. (Optional) Trust the self signed certificate ca.crt in PasswordWallet.Client/cert directory.
 1. Run `docker compose up` command in project root folder.
 1. Navigate to https://localhost:8000.
 
