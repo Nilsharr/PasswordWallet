@@ -1,0 +1,52 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - "main"  
+
+permissions:
+  contents: read
+  packages: write      
+
+jobs:      
+  test-backend:
+    runs-on: ubuntu-latest
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+    defaults:
+      run:
+        working-directory: ./PasswordWallet.Server
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.x
+        cache: true
+        cache-dependency-path: PasswordWallet.Server
+        
+    - name: Install dependencies
+      run: dotnet restore --locked-mode
+      
+    - name: Test with the dotnet CLI
+      run: dotnet test --no-restore
+      
+  build-backend-image:
+      needs: test-backend
+      uses: ./.github/workflows/build-image.yml
+      with:
+        image_name: ghcr.io/${{ github.repository }}-backend
+        context: PasswordWallet.Server
+        cache_repository: nilsharr/passwordwallet-backend:buildcache
+      secrets: inherit
+
+  build-frontend-image:  
+    uses: ./.github/workflows/build-image.yml
+    with:
+      image_name: ghcr.io/${{ github.repository }}-frontend
+      context: PasswordWallet.Client
+      cache_repository: nilsharr/passwordwallet-frontend:buildcache
+    secrets: inherit

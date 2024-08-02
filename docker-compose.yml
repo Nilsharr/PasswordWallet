@@ -1,23 +1,19 @@
 name: password-wallet
 services:
   frontend:
-    build:
-      context: PasswordWallet.Client
-      dockerfile: Dockerfile
+    image: ghcr.io/nilsharr/passwordwallet-frontend:latest
     ports:
       - "8000:80"
     volumes:
       - ./PasswordWallet.Client/cert/local:/cert
 
   backend:
-    build: 
-      context: PasswordWallet.Server
-      dockerfile: Dockerfile   
+    image: ghcr.io/nilsharr/passwordwallet-backend:latest
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:8080
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx    
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=password        
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ConnectionStrings:PasswordWalletConnection=Server=postgres;Port=5432;Database=PasswordWallet;User Id=postgres;Password=root;
       - CorsOptions:Origins__0=https://localhost:8000
     depends_on:
