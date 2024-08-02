@@ -5,6 +5,8 @@ EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 ARG BUILD_CONFIGURATION=Release
+COPY ["/Directory.Build.props","/"]
+COPY ["/Directory.Packages.props","/"]
 WORKDIR /src
 COPY ["src/Api/Api.csproj", "Api/"]
 COPY ["src/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
