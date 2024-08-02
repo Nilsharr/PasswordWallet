@@ -31,4 +31,4 @@ Docker is required to run integration tests.
 
 ## Screenshots
 
-<img src="./resources/password_wallet_main.png" alt="Password Wallet" width="800" />
+<img src=".github/resources/password_wallet_main.png" alt="Password Wallet" width="800" />
