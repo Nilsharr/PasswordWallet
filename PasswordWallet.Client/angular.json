@@ -67,8 +67,8 @@
             }
           },
           "options": {
-            "sslCert": "cert/local/localhost.crt",
-            "sslKey": "cert/local/localhost.key"
+            "sslCert": "../cert/local/localhost.crt",
+            "sslKey": "../cert/local/localhost.key"
           },
           "defaultConfiguration": "development"
         },

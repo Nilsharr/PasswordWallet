@@ -27,9 +27,6 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-cert/*
-!cert/cert.sh
-!cert/v3.ext
 /.angular/cache
 .sass-cache/
 /connect.lock

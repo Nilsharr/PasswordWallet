@@ -1,0 +1,3 @@
+cert/*
+!cert/cert.sh
+!cert/v3.ext
